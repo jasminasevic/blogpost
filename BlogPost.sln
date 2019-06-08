@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{2806D614-9EC5-47F1-BF7C-8BE94A54458D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{2806D614-9EC5-47F1-BF7C-8BE94A54458D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EfDataAccess", "EfDataAccess\EfDataAccess.csproj", "{FFD91FFA-C26A-41F2-9722-01946BEBD603}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EfDataAccess", "EfDataAccess\EfDataAccess.csproj", "{FFD91FFA-C26A-41F2-9722-01946BEBD603}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{DE921C7B-EEFB-4950-975E-348650073CF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{FFD91FFA-C26A-41F2-9722-01946BEBD603}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFD91FFA-C26A-41F2-9722-01946BEBD603}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFD91FFA-C26A-41F2-9722-01946BEBD603}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE921C7B-EEFB-4950-975E-348650073CF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE921C7B-EEFB-4950-975E-348650073CF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE921C7B-EEFB-4950-975E-348650073CF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE921C7B-EEFB-4950-975E-348650073CF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
