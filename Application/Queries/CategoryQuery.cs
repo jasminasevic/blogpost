@@ -6,5 +6,6 @@ namespace Application.Queries
 {
     public class CategoryQuery : BaseQuery
     {
+        public string Name { get; set; }
     }
 }

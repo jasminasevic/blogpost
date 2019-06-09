@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Commands;
 using Application.DTO;
 using Application.Exceptions;
+using Application.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,19 +17,29 @@ namespace Api.Controllers
     {
 
         private readonly IGetCategoryCommand _getCategory;
+        private readonly IGetCategoriesCommand _getCategories;
 
-        public CategoriesController(IGetCategoryCommand getCategory)
+        public CategoriesController(IGetCategoryCommand getCategory,
+                                    IGetCategoriesCommand getCategories)
         {
             _getCategory = getCategory;
+            _getCategories = getCategories;
         }
 
 
 
         // GET: api/Categories
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get([FromQuery]CategoryQuery query)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                return Ok(_getCategories.Execute(query));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         // GET: api/Categories/5

@@ -4,7 +4,10 @@ using System.Text;
 
 namespace Application.DTO
 {
-    class CategoryDto
+    public class CategoryDto
     {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
     }
 }
