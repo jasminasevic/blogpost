@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Commands;
 using Application.Exceptions;
+using Application.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -14,20 +15,28 @@ namespace Api.Controllers
     public class UsersController : ControllerBase
     {
         private readonly IGetUserCommand _getUser;
+        private readonly IGetUsersCommand _getUsers;
 
-        public UsersController(IGetUserCommand getUser)
+        public UsersController(IGetUserCommand getUser,
+                               IGetUsersCommand getUsers)
         {
             _getUser = getUser;
+            _getUsers = getUsers;
         }
-
-
 
 
         // GET: api/Users
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get([FromQuery]UserQuery query)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                return Ok(_getUsers.Execute(query));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         // GET: api/Users/5
