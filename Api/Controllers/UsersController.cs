@@ -18,14 +18,17 @@ namespace Api.Controllers
         private readonly IGetUserCommand _getUser;
         private readonly IGetUsersCommand _getUsers;
         private readonly IAddUserCommand _addUser;
+        private readonly IEditUserCommand _editUser;
 
         public UsersController(IGetUserCommand getUser,
                                IGetUsersCommand getUsers,
-                               IAddUserCommand addUser)
+                               IAddUserCommand addUser,
+                               IEditUserCommand editUser)
         {
             _getUser = getUser;
             _getUsers = getUsers;
             _addUser = addUser;
+            _editUser = editUser;
         }
 
 
@@ -79,8 +82,23 @@ namespace Api.Controllers
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] UserDto dto)
         {
+            try
+            {
+                dto.Id = id;
+                _editUser.Execute(dto);
+                return StatusCode(204);
+               
+            }
+            catch(NotFoundException)
+            {
+                return NotFound();
+            }
+            catch(EntityAlreadyExistsException)
+            {
+                return StatusCode(422);
+            }
         }
 
         // DELETE: api/ApiWithActions/5
