@@ -25,7 +25,7 @@ namespace EfCommands
                 FirstName = request.FirstName,
                 LastName = request.LastName,
                 Username = request.Username,
-                Password = request.Password,
+                Password = this.ComputeSha256Hash(request.Password),
                 RoleId = request.RoleId
             });
 
