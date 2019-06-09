@@ -21,16 +21,19 @@ namespace Api.Controllers
         private readonly IGetRolesCommand _getRoles;
         private readonly IAddRoleCommand _addRole;
         private readonly IEditRoleCommand _editRole;
+        private readonly IDeleteRoleCommand _deleteRole;
 
         public RolesController(IGetRoleCommand getRole, 
                                IGetRolesCommand getRoles, 
                                IAddRoleCommand addRole,
-                               IEditRoleCommand editRole)
+                               IEditRoleCommand editRole,
+                               IDeleteRoleCommand deleteRole)
         {
             _getRole = getRole;
             _getRoles = getRoles;
             _addRole = addRole;
             _editRole = editRole;
+            _deleteRole = deleteRole;
         }
 
 
@@ -102,8 +105,17 @@ namespace Api.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                _deleteRole.Execute(id);
+                return StatusCode(204);
+            }
+            catch(NotFoundException)
+            {
+                return NotFound();
+            }
         }
     }
 }
