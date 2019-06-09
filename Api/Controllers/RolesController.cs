@@ -20,12 +20,17 @@ namespace Api.Controllers
         private readonly IGetRoleCommand _getRole;
         private readonly IGetRolesCommand _getRoles;
         private readonly IAddRoleCommand _addRole;
+        private readonly IEditRoleCommand _editRole;
 
-        public RolesController(IGetRoleCommand getRole, IGetRolesCommand getRoles, IAddRoleCommand addRole)
+        public RolesController(IGetRoleCommand getRole, 
+                               IGetRolesCommand getRoles, 
+                               IAddRoleCommand addRole,
+                               IEditRoleCommand editRole)
         {
             _getRole = getRole;
             _getRoles = getRoles;
             _addRole = addRole;
+            _editRole = editRole;
         }
 
 
@@ -76,8 +81,23 @@ namespace Api.Controllers
 
         // PUT: api/Roles/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] RoleDto dto)
         {
+            try
+            {
+                dto.Id = id;
+                _editRole.Execute(dto);
+                return StatusCode(204);
+                
+            }
+            catch(NotFoundException)
+            {
+                return NotFound();
+            }
+            catch(EntityAlreadyExistsException)
+            {
+                return StatusCode(422);
+            }
         }
 
         // DELETE: api/ApiWithActions/5
