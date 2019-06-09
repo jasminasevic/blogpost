@@ -19,14 +19,16 @@ namespace Api.Controllers
         private readonly IGetCategoryCommand _getCategory;
         private readonly IGetCategoriesCommand _getCategories;
         private readonly IAddCategoryCommand _addCategory;
-
+        private readonly IEditCategoryCommand _editCategory;
         public CategoriesController(IGetCategoryCommand getCategory,
                                     IGetCategoriesCommand getCategories,
-                                    IAddCategoryCommand addCategory)
+                                    IAddCategoryCommand addCategory,
+                                    IEditCategoryCommand editCategory)
         {
             _getCategory = getCategory;
             _getCategories = getCategories;
             _addCategory = addCategory;
+            _editCategory = editCategory;
         }
 
 
@@ -77,8 +79,23 @@ namespace Api.Controllers
 
         // PUT: api/Categories/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] CategoryDto dto)
         {
+            try
+            {
+                dto.Id = id;
+                _editCategory.Execute(dto);
+                return StatusCode(422);
+
+            }
+            catch(NotFoundException)
+            {
+                return NotFound();
+            }
+            catch(EntityAlreadyExistsException)
+            {
+                return StatusCode(422);
+            }
         }
 
         // DELETE: api/ApiWithActions/5
