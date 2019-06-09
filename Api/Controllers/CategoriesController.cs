@@ -18,12 +18,15 @@ namespace Api.Controllers
 
         private readonly IGetCategoryCommand _getCategory;
         private readonly IGetCategoriesCommand _getCategories;
+        private readonly IAddCategoryCommand _addCategory;
 
         public CategoriesController(IGetCategoryCommand getCategory,
-                                    IGetCategoriesCommand getCategories)
+                                    IGetCategoriesCommand getCategories,
+                                    IAddCategoryCommand addCategory)
         {
             _getCategory = getCategory;
             _getCategories = getCategories;
+            _addCategory = addCategory;
         }
 
 
@@ -58,8 +61,18 @@ namespace Api.Controllers
 
         // POST: api/Categories
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] CategoryDto dto)
         {
+            try
+            {
+                _addCategory.Execute(dto);
+                return StatusCode(200);
+
+            }
+            catch(EntityAlreadyExistsException)
+            {
+                return NotFound();
+            }
         }
 
         // PUT: api/Categories/5
