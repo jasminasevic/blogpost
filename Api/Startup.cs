@@ -31,6 +31,8 @@ namespace Api
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<EfContext>();
             services.AddTransient<IGetRoleCommand, EfGetRoleCommand>();
+            services.AddTransient<IGetRolesCommand, EfGetRolesCommand>();
+            services.AddTransient<IAddRoleCommand, EfAddRoleCommand>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -8,6 +8,7 @@ using Application.Commands;
 using Application.Exceptions;
 using EfDataAccess;
 using Application.DTO;
+using Application.Queries;
 
 namespace Api.Controllers
 {
@@ -17,18 +18,29 @@ namespace Api.Controllers
     {
 
         private readonly IGetRoleCommand _getRole;
+        private readonly IGetRolesCommand _getRoles;
+        private readonly IAddRoleCommand _addRole;
 
-        public RolesController(IGetRoleCommand getRole)
+        public RolesController(IGetRoleCommand getRole, IGetRolesCommand getRoles, IAddRoleCommand addRole)
         {
-           _getRole = getRole;
+            _getRole = getRole;
+            _getRoles = getRoles;
+            _addRole = addRole;
         }
 
 
         // GET: api/Roles
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get([FromQuery]RoleQuery query)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                return Ok(_getRoles.Execute(query));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         // GET: api/Roles/5
@@ -48,8 +60,18 @@ namespace Api.Controllers
 
         // POST: api/Roles
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] RoleDto dto)
         {
+            try
+            {
+                _addRole.Execute(dto);
+                return StatusCode(200);
+            }
+            catch(EntityAlreadyExistsException)
+            {
+                return StatusCode(422);
+            }
+
         }
 
         // PUT: api/Roles/5
