@@ -19,16 +19,19 @@ namespace Api.Controllers
         private readonly IGetUsersCommand _getUsers;
         private readonly IAddUserCommand _addUser;
         private readonly IEditUserCommand _editUser;
+        private readonly IDeleteUserCommand _deleteUser;
 
         public UsersController(IGetUserCommand getUser,
                                IGetUsersCommand getUsers,
                                IAddUserCommand addUser,
-                               IEditUserCommand editUser)
+                               IEditUserCommand editUser,
+                               IDeleteUserCommand deleteUser)
         {
             _getUser = getUser;
             _getUsers = getUsers;
             _addUser = addUser;
             _editUser = editUser;
+            _deleteUser = deleteUser;
         }
 
 
@@ -103,8 +106,18 @@ namespace Api.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                _deleteUser.Execute(id);
+                return StatusCode(204);
+            }
+            catch(NotFoundException)
+            {
+                return NotFound();
+            }
+
         }
     }
 }
