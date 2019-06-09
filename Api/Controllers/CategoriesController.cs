@@ -20,15 +20,18 @@ namespace Api.Controllers
         private readonly IGetCategoriesCommand _getCategories;
         private readonly IAddCategoryCommand _addCategory;
         private readonly IEditCategoryCommand _editCategory;
+        private readonly IDeleteCategoryCommand _deleteCategory;
         public CategoriesController(IGetCategoryCommand getCategory,
                                     IGetCategoriesCommand getCategories,
                                     IAddCategoryCommand addCategory,
-                                    IEditCategoryCommand editCategory)
+                                    IEditCategoryCommand editCategory,
+                                    IDeleteCategoryCommand deleteCategory)
         {
             _getCategory = getCategory;
             _getCategories = getCategories;
             _addCategory = addCategory;
             _editCategory = editCategory;
+            _deleteCategory = deleteCategory;
         }
 
 
@@ -100,8 +103,17 @@ namespace Api.Controllers
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                _deleteCategory.Execute(id);
+                return StatusCode(204);
+            }
+            catch(NotFoundException)
+            {
+                return NotFound();
+            }
         }
     }
 }

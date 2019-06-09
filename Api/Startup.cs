@@ -39,6 +39,7 @@ namespace Api
             services.AddTransient<IGetCategoriesCommand, EfGetCategoriesCommand>();
             services.AddTransient<IAddCategoryCommand, EfAddCategoryCommand>();
             services.AddTransient<IEditCategoryCommand, EfEditCategoryCommand>();
+            services.AddTransient<IDeleteCategoryCommand, EfDeleteCategoryCommand>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
