@@ -16,20 +16,13 @@ namespace Api.Controllers
     public class RolesController : ControllerBase
     {
 
-        //private readonly IGetRoleCommand _getRole;
+        private readonly IGetRoleCommand _getRole;
 
-        //public RolesController(IGetRoleCommand getRole)
-        //{
-        //    _getRole = getRole;
-        //}
-
-
-        private readonly EfContext _context;
-
-        public RolesController()
+        public RolesController(IGetRoleCommand getRole)
         {
-            _context = new EfContext();
+           _getRole = getRole;
         }
+
 
         // GET: api/Roles
         [HttpGet]
@@ -42,26 +35,15 @@ namespace Api.Controllers
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            //try
-            //{
-            //    return Ok(_getRole.Execute(id));
-            //}
-            //catch (Exception ex)
-            //{
-            //    throw ex;
-            //}
-
-            var role = _context.Roles.Find(id);
-
-            if (role == null)
+            try
+            {
+                return Ok(_getRole.Execute(id));
+            }
+            catch (NotFoundException)
             {
                 return NotFound();
             }
 
-            return Ok(new ShowRoleDto
-            {
-                Name = role.Name
-            });
         }
 
         // POST: api/Roles

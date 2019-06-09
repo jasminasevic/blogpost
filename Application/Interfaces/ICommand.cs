@@ -4,13 +4,14 @@ using System.Text;
 
 namespace Application.Interfaces
 {
+
     public interface ICommand<TRequest>
     {
         void Execute(TRequest request);
     }
 
-    public interface ICommand<TRequest, TResponse>
+    public interface ICommand<TRequest, TResult>
     {
-        TResponse Execute(TRequest request);
+        TResult Execute(TRequest request);
     }
 }
