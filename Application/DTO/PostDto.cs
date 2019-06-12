@@ -19,5 +19,11 @@ namespace Application.DTO
         public string LastName { get; set; }
 
         public string Category { get; set; }
+
+        public int ImageId { get; set; }
+
+        public int CategoryId { get; set; }
+
+        public int UserId { get; set; }
     }
 }
