@@ -22,8 +22,8 @@ namespace EfCommands
             if (post == null)
                 throw new NotFoundException();
 
-            //if (request.Title != post.Title && Context.Posts.Any(p => p.Title == request.Title))
-            //    throw new EntityAlreadyExistsException();
+            if (request.Title != post.Title && Context.Posts.Any(p => p.Title == request.Title))
+                throw new EntityAlreadyExistsException();
 
             post.Title = request.Title;
             post.Summary = request.Summary;

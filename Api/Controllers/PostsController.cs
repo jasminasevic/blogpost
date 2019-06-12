@@ -20,16 +20,19 @@ namespace Api.Controllers
         private readonly IGetPostsCommand _getPosts;
         private readonly IAddPostCommand _addPost;
         private readonly IEditPostCommand _editPost;
+        private readonly IDeletePostCommand _deletePost;
 
         public PostsController(IGetPostCommand getPost,
                                IGetPostsCommand getPosts,
                                IAddPostCommand addPost,
-                               IEditPostCommand editPost)
+                               IEditPostCommand editPost,
+                               IDeletePostCommand deletePost)
         {
             _getPost = getPost;
             _getPosts = getPosts;
             _addPost = addPost;
             _editPost = editPost;
+            _deletePost = deletePost;
         }
 
         // GET: api/Posts
@@ -93,16 +96,26 @@ namespace Api.Controllers
             {
                 return NotFound();
             }
-            //catch(EntityAlreadyExistsException)
-            //{
-            //    return StatusCode(422);
-            //}
+            catch(EntityAlreadyExistsException)
+            {
+                return StatusCode(422);
+            }
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                _deletePost.Execute(id);
+                return StatusCode(204);
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
+
         }
     }
 }
