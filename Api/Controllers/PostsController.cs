@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Commands;
 using Application.Exceptions;
+using Application.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,17 +16,27 @@ namespace Api.Controllers
     {
 
         private readonly IGetPostCommand _getPost;
+        private readonly IGetPostsCommand _getPosts;
 
-        public PostsController(IGetPostCommand getPost)
+        public PostsController(IGetPostCommand getPost,
+                               IGetPostsCommand getPosts)
         {
             _getPost = getPost;
+            _getPosts = getPosts;
         }
 
         // GET: api/Posts
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get([FromQuery]PostQuery query)
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                return Ok(_getPosts.Execute(query));
+            }
+            catch(NotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         // GET: api/Posts/5

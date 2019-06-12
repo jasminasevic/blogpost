@@ -46,6 +46,7 @@ namespace Api
             services.AddTransient<IEditUserCommand, EfEditUserCommand>();
             services.AddTransient<IDeleteUserCommand, EfDeleteUserCommand>();
             services.AddTransient<IGetPostCommand, EfGetPostCommand>();
+            services.AddTransient<IGetPostsCommand, EfGetPostsCommand>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
