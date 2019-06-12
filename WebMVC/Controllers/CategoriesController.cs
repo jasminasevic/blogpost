@@ -1,0 +1,119 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Application.Commands;
+using Application.DTO;
+using Application.Exceptions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+
+namespace WebMVC.Controllers
+{
+    public class CategoriesController : Controller
+    {
+        private readonly IAddCategoryCommand _addCategory;
+
+        public CategoriesController(IAddCategoryCommand addCategory) => _addCategory = addCategory;
+
+
+        // GET: Categories
+        public ActionResult Index()
+        {
+            var categoryList = new List<CategoryDto>
+            {
+                new CategoryDto
+                {
+                    Id = 7,
+                    Name = "Kategorija 7"
+                },
+                new CategoryDto
+                {
+                    Id = 8,
+                    Name = "Kategorija 8"
+                }
+            };
+            return View(categoryList);
+        }
+
+        // GET: Categories/Details/5
+        public ActionResult Details(int id)
+        {
+            return View();
+        }
+
+        // GET: Categories/Create
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: Categories/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(CategoryDto dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(dto);
+            }
+            try
+            {
+                // TODO: Add insert logic here
+                _addCategory.Execute(dto);
+                return RedirectToAction(nameof(Index));
+            }
+            catch(EntityAlreadyExistsException)
+            {
+                TempData["error"] = "Category with the same name already exists.";
+            }
+            catch(Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+
+            return View();
+        }
+
+        // GET: Categories/Edit/5
+        public ActionResult Edit(int id)
+        {
+            return View();
+        }
+
+        // POST: Categories/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, IFormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+
+        // POST: Categories/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, IFormCollection collection)
+        {
+            try
+            {
+                // TODO: Add delete logic here
+
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+    }
+}
