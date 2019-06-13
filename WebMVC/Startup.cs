@@ -38,6 +38,8 @@ namespace WebMVC
             services.AddTransient<IAddCategoryCommand, EfAddCategoryCommand>();
             services.AddTransient<IGetSearchCategoriesCommand, EfGetSearchCategoryCommand>();
             services.AddTransient<IGetCategoryCommand, EfGetCategoryCommand>();
+            services.AddTransient<IEditCategoryCommand, EfEditCategoryCommand>();
+            services.AddTransient<IDeleteCategoryCommand, EfDeleteCategoryCommand>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

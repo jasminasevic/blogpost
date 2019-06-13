@@ -18,14 +18,20 @@ namespace WebMVC.Controllers
         private readonly IAddCategoryCommand _addCategory;
         private readonly IGetSearchCategoriesCommand _getSearchCategories;
         private readonly IGetCategoryCommand _getCategory;
+        private readonly IEditCategoryCommand _editCategory;
+        private readonly IDeleteCategoryCommand _deleteCategory;
 
-        public CategoriesController(IAddCategoryCommand addCategory, 
-            IGetSearchCategoriesCommand getSearchCategories, 
-            IGetCategoryCommand getCategory)
+        public CategoriesController(IAddCategoryCommand addCategory,
+                                    IGetSearchCategoriesCommand getSearchCategories,
+                                    IGetCategoryCommand getCategory,
+                                    IEditCategoryCommand editCategory,
+                                    IDeleteCategoryCommand deleteCategory)
         {
             _addCategory = addCategory;
             _getSearchCategories = getSearchCategories;
             _getCategory = getCategory;
+            _editCategory = editCategory;
+            _deleteCategory = deleteCategory;
         }
 
 
@@ -85,42 +91,56 @@ namespace WebMVC.Controllers
         // GET: Categories/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            try
+            {
+                var dto = _getCategory.Execute(id);
+                return View(dto);
+            }
+            catch(Exception)
+            {
+                return RedirectToAction("index");
+            }
         }
 
         // POST: Categories/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, CategoryDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(dto);
+            }
             try
             {
-                // TODO: Add update logic here
-
+                _editCategory.Execute(dto);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(NotFoundException)
             {
-                return View();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                TempData["error"] = "Category with the same name already exist.";
+                return View(dto);
             }
         }
 
-
-        // POST: Categories/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        // GET: User/Delete/5
+        public ActionResult Delete(int id)
         {
             try
             {
-                // TODO: Add delete logic here
-
+                _deleteCategory.Execute(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (Exception)
             {
-                return View();
+                TempData["error"] = "Some error occurred. Please try again.";
+                return RedirectToAction(nameof(Index));
             }
         }
+
     }
 }
