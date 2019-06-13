@@ -36,6 +36,8 @@ namespace WebMVC
             });
             services.AddDbContext<EfContext>();
             services.AddTransient<IAddCategoryCommand, EfAddCategoryCommand>();
+            services.AddTransient<IGetSearchCategoriesCommand, EfGetSearchCategoryCommand>();
+            services.AddTransient<IGetCategoryCommand, EfGetCategoryCommand>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

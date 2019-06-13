@@ -5,43 +5,50 @@ using System.Threading.Tasks;
 using Application.Commands;
 using Application.DTO;
 using Application.Exceptions;
+using Application.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Application.Responses;
+using Application.Searches;
 
 namespace WebMVC.Controllers
 {
     public class CategoriesController : Controller
     {
         private readonly IAddCategoryCommand _addCategory;
+        private readonly IGetSearchCategoriesCommand _getSearchCategories;
+        private readonly IGetCategoryCommand _getCategory;
 
-        public CategoriesController(IAddCategoryCommand addCategory) => _addCategory = addCategory;
+        public CategoriesController(IAddCategoryCommand addCategory, 
+            IGetSearchCategoriesCommand getSearchCategories, 
+            IGetCategoryCommand getCategory)
+        {
+            _addCategory = addCategory;
+            _getSearchCategories = getSearchCategories;
+            _getCategory = getCategory;
+        }
 
 
         // GET: Categories
-        public ActionResult Index()
+        public ActionResult Index(CategorySearch search)
         {
-            var categoryList = new List<CategoryDto>
-            {
-                new CategoryDto
-                {
-                    Id = 7,
-                    Name = "Kategorija 7"
-                },
-                new CategoryDto
-                {
-                    Id = 8,
-                    Name = "Kategorija 8"
-                }
-            };
+            var categoryList = _getSearchCategories.Execute(search);
             return View(categoryList);
         }
 
         // GET: Categories/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            try
+            {
+                var dto = _getCategory.Execute(id);
+                return View(dto);
+            }
+            catch (Exception)
+            {
+                return View();
+            }
         }
-
         // GET: Categories/Create
         public ActionResult Create()
         {
