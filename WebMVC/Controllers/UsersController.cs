@@ -31,7 +31,15 @@ namespace WebMVC.Controllers
         // GET: Users/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            try
+            {
+                var dto = _getUser.Execute(id);
+                return View(dto);
+            }
+            catch(Exception)
+            {
+                return View();
+            }
         }
 
         // GET: Users/Create
