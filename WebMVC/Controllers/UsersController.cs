@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Commands;
+using Application.DTO;
+using Application.Exceptions;
 using Application.Searches;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,12 +15,15 @@ namespace WebMVC.Controllers
     {
         private readonly IGetUserCommand _getUser;
         private readonly IGetSearchUsersCommand _getSearchUsers;
+        private readonly IAddUserCommand _addUser;
 
-        public UsersController(IGetUserCommand getUser, 
-                               IGetSearchUsersCommand getSearchUsers)
+        public UsersController(IGetUserCommand getUser,
+                               IGetSearchUsersCommand getSearchUsers, 
+                               IAddUserCommand addUser)
         {
             _getUser = getUser;
             _getSearchUsers = getSearchUsers;
+            _addUser = addUser;
         }
 
         // GET: Users
@@ -51,18 +56,26 @@ namespace WebMVC.Controllers
         // POST: Users/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(UserDto dto)
         {
+           if(!ModelState.IsValid)
+            {
+                return View(dto);
+            }
             try
             {
-                // TODO: Add insert logic here
-
+                _addUser.Execute(dto);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (EntityAlreadyExistsException)
             {
-                return View();
+                TempData["error"] = "User with the same name already exists.";
             }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+            return View();
         }
 
         // GET: Users/Edit/5
