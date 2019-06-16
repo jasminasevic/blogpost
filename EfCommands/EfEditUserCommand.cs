@@ -31,6 +31,7 @@ namespace EfCommands
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
             user.Username = request.Username;
+            user.Password = request.Password;
             user.RoleId = request.RoleId;
 
             Context.SaveChanges();

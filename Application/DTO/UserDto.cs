@@ -17,6 +17,8 @@ namespace Application.DTO
 
         public string Password { get; set; }
 
+        public string RoleName { get; set; }
+
         public int RoleId { get; set; }
     }
 }

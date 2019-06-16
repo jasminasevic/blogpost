@@ -14,19 +14,20 @@ namespace EfCommands
         {
         }
 
-        public ShowUserDto Execute(int request)
+        public UserDto Execute(int request)
         {
             var user = Context.Users.Find(request);
 
             if (user == null)
                 throw new NotFoundException();
 
-            var dto = new ShowUserDto
+            var dto = new UserDto
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Username = user.Username,
-                RoleName = Context.Roles.Find(user.RoleId).Name
+                Password = user.Password,
+                RoleId = user.RoleId
             };
 
             return dto;

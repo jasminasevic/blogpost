@@ -16,14 +16,20 @@ namespace WebMVC.Controllers
         private readonly IGetUserCommand _getUser;
         private readonly IGetSearchUsersCommand _getSearchUsers;
         private readonly IAddUserCommand _addUser;
+        private readonly IEditUserCommand _editUser;
+        private readonly IDeleteUserCommand _deleteUser;
 
         public UsersController(IGetUserCommand getUser,
-                               IGetSearchUsersCommand getSearchUsers, 
-                               IAddUserCommand addUser)
+                               IGetSearchUsersCommand getSearchUsers,
+                               IAddUserCommand addUser, 
+                               IEditUserCommand editUser,
+                               IDeleteUserCommand deleteUser)
         {
             _getUser = getUser;
             _getSearchUsers = getSearchUsers;
             _addUser = addUser;
+            _editUser = editUser;
+            _deleteUser = deleteUser;
         }
 
         // GET: Users
@@ -81,23 +87,45 @@ namespace WebMVC.Controllers
         // GET: Users/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            try
+            {
+                var user = _getUser.Execute(id);
+                return View(user);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         // POST: Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, UserDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(dto);
+            }
+
             try
             {
-                // TODO: Add update logic here
-
+                _editUser.Execute(dto);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(NotFoundException)
             {
-                return View();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                TempData["error"] = "User with the same username already exists.";
+                return View(dto);
+            }
+            catch(Exception)
+            {
+                TempData["error"] = "Role Id is not valid.";
+                return View(dto);
             }
         }
 
