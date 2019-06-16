@@ -132,24 +132,17 @@ namespace WebMVC.Controllers
         // GET: Users/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
-        }
-
-        // POST: Users/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
             try
             {
-                // TODO: Add delete logic here
-
+                _deleteUser.Execute(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception)
             {
-                return View();
+                TempData["error"] = "Some error occurred. Please try again.";
+                return RedirectToAction(nameof(Index));
             }
         }
+
     }
 }
