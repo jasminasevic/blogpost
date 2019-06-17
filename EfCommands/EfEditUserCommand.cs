@@ -26,7 +26,7 @@ namespace EfCommands
                 throw new EntityAlreadyExistsException();
 
             if (request.Password != null)
-                user.Password = this.ComputeSha256Hash(request.Password);
+                user.Password = request.Password;
 
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;

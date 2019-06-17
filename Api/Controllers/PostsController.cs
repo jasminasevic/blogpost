@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Helpers;
 using Application.Commands;
 using Application.DTO;
 using Application.Exceptions;
+using Application.Login;
 using Application.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,18 +23,21 @@ namespace Api.Controllers
         private readonly IAddPostCommand _addPost;
         private readonly IEditPostCommand _editPost;
         private readonly IDeletePostCommand _deletePost;
+        private readonly LoggedUser _user;
 
         public PostsController(IGetPostCommand getPost,
                                IGetPostsCommand getPosts,
                                IAddPostCommand addPost,
                                IEditPostCommand editPost,
-                               IDeletePostCommand deletePost)
+                               IDeletePostCommand deletePost, 
+                               LoggedUser user)
         {
             _getPost = getPost;
             _getPosts = getPosts;
             _addPost = addPost;
             _editPost = editPost;
             _deletePost = deletePost;
+            _user = user;
         }
 
         // GET: api/Posts
@@ -64,6 +69,7 @@ namespace Api.Controllers
         }
 
         // POST: api/Posts
+        [LoggedIn]
         [HttpPost]
         public IActionResult Post([FromBody] PostDto dto)
         {
@@ -83,6 +89,7 @@ namespace Api.Controllers
         }
 
         // PUT: api/Posts/5
+        [LoggedIn]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] PostDto dto)
         {
@@ -103,6 +110,7 @@ namespace Api.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
+        [LoggedIn]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

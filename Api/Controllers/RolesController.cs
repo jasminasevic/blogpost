@@ -9,6 +9,7 @@ using Application.Exceptions;
 using EfDataAccess;
 using Application.DTO;
 using Application.Queries;
+using Api.Helpers;
 
 namespace Api.Controllers
 {
@@ -67,6 +68,7 @@ namespace Api.Controllers
         }
 
         // POST: api/Roles
+        [LoggedIn("Admin")]
         [HttpPost]
         public IActionResult Post([FromBody] RoleDto dto)
         {
@@ -83,6 +85,7 @@ namespace Api.Controllers
         }
 
         // PUT: api/Roles/5
+        [LoggedIn("Admin")]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] RoleDto dto)
         {
@@ -104,6 +107,7 @@ namespace Api.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
+        [LoggedIn("Admin")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

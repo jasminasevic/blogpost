@@ -35,11 +35,13 @@ namespace WebMVC
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
             services.AddDbContext<EfContext>();
+            //categories
             services.AddTransient<IAddCategoryCommand, EfAddCategoryCommand>();
             services.AddTransient<IGetSearchCategoriesCommand, EfGetSearchCategoryCommand>();
             services.AddTransient<IGetCategoryCommand, EfGetCategoryCommand>();
             services.AddTransient<IEditCategoryCommand, EfEditCategoryCommand>();
             services.AddTransient<IDeleteCategoryCommand, EfDeleteCategoryCommand>();
+            //users
             services.AddTransient<IGetUserCommand, EfGetUserCommand>();
             services.AddTransient<IGetSearchUsersCommand, EfGetSearchUserCommand>();
             services.AddTransient<IAddUserCommand, EfAddUserCommand>();

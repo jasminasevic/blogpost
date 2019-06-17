@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Helpers;
 using Application.Commands;
 using Application.DTO;
 using Application.Exceptions;
@@ -63,6 +64,7 @@ namespace Api.Controllers
             }
         }
 
+        [LoggedIn("Admin")]
         // POST: api/Users
         [HttpPost]
         public IActionResult Post([FromBody] UserDto query)
@@ -83,6 +85,7 @@ namespace Api.Controllers
 
         }
 
+        [LoggedIn("Admin")]
         // PUT: api/Users/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] UserDto dto)
@@ -104,6 +107,7 @@ namespace Api.Controllers
             }
         }
 
+        [LoggedIn("Admin")]
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
