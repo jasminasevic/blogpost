@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Email;
 using Api.Helpers;
 using Application.Commands;
+using Application.Interfaces;
 using Application.Login;
 using EfCommands;
 using EfDataAccess;
@@ -90,6 +92,15 @@ namespace Api
                     };
                 }
             });
+
+            //email
+            var section = Configuration.GetSection("Email");
+
+            var sender =
+                new SmtpEmailSender(section["host"], Int32.Parse(section["port"]), section["fromaddress"], section["password"]);
+
+            services.AddSingleton<IEmailSender>(sender);
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

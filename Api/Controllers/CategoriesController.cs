@@ -52,7 +52,7 @@ namespace Api.Controllers
         }
 
         // GET: api/Categories/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             try

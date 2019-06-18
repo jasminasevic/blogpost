@@ -64,7 +64,7 @@ namespace Api.Controllers
             }
         }
 
-        [LoggedIn("Admin")]
+        
         // POST: api/Users
         [HttpPost]
         public IActionResult Post([FromBody] UserDto query)
@@ -85,7 +85,7 @@ namespace Api.Controllers
 
         }
 
-        [LoggedIn("Admin")]
+        [LoggedIn]
         // PUT: api/Users/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] UserDto dto)

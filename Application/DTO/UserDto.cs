@@ -18,7 +18,7 @@ namespace Application.DTO
         public string LastName { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
-        [RegularExpression("^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,4}$", ErrorMessage = "Username (email) is not in a good format")]
+        [RegularExpression("^[A-z0-9._%+-]+@[A-z0-9.-]+.[A-z]{2,4}$", ErrorMessage = "Username (email) is not in a good format")]
         public string Username { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
