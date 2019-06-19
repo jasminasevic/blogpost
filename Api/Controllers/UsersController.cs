@@ -35,10 +35,13 @@ namespace Api.Controllers
             _deleteUser = deleteUser;
         }
 
+        /// <summary>
+        /// Returns all users
+        /// </summary>
 
         // GET: api/Users
         [HttpGet]
-        public IActionResult Get([FromQuery]UserQuery query)
+        public ActionResult<IEnumerable<UserDto>> Get([FromQuery]UserQuery query)
         {
             try
             {
@@ -49,6 +52,10 @@ namespace Api.Controllers
                 return NotFound();
             }
         }
+
+        /// <summary>
+        /// Returns one specific user
+        /// </summary>
 
         // GET: api/Users/5
         [HttpGet("{id}")]
@@ -64,7 +71,10 @@ namespace Api.Controllers
             }
         }
 
-        
+        /// <summary>
+        /// Insert new user
+        /// </summary>
+
         // POST: api/Users
         [HttpPost]
         public IActionResult Post([FromBody] UserDto query)
@@ -84,6 +94,10 @@ namespace Api.Controllers
             }
 
         }
+
+        /// <summary>
+        /// User edit
+        /// </summary>
 
         [LoggedIn]
         // PUT: api/Users/5
@@ -106,6 +120,11 @@ namespace Api.Controllers
                 return StatusCode(422);
             }
         }
+
+
+        /// <summary>
+        /// User delete
+        /// </summary>
 
         [LoggedIn("Admin")]
         // DELETE: api/ApiWithActions/5

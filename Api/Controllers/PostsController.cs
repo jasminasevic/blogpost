@@ -40,9 +40,13 @@ namespace Api.Controllers
             _user = user;
         }
 
+        /// <summary>
+        /// Returns all posts
+        /// </summary>
+
         // GET: api/Posts
         [HttpGet]
-        public IActionResult Get([FromQuery]PostQuery query)
+        public ActionResult<IEnumerable<PostDto>> Get([FromQuery]PostQuery query)
         {
             try
             {
@@ -53,6 +57,10 @@ namespace Api.Controllers
                 return NotFound();
             }
         }
+
+        /// <summary>
+        /// Returns one specific post
+        /// </summary>
 
         // GET: api/Posts/5
         [HttpGet("{id}")]
@@ -67,6 +75,11 @@ namespace Api.Controllers
                 return NotFound();
             }
         }
+
+
+        /// <summary>
+        /// Insert new post
+        /// </summary>
 
         // POST: api/Posts
         [LoggedIn]
@@ -87,6 +100,10 @@ namespace Api.Controllers
                 return StatusCode(500, e);
             }
         }
+
+        /// <summary>
+        /// Post edit
+        /// </summary>
 
         // PUT: api/Posts/5
         [LoggedIn]
@@ -109,7 +126,11 @@ namespace Api.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
+        /// <summary>
+        /// Post delete
+        /// </summary>
+
+        // DELETE: api/Posts/5
         [LoggedIn]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)

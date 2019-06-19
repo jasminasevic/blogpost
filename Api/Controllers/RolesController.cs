@@ -37,10 +37,13 @@ namespace Api.Controllers
             _deleteRole = deleteRole;
         }
 
+        /// <summary>
+        /// Returns all roles
+        /// </summary>
 
         // GET: api/Roles
         [HttpGet]
-        public IActionResult Get([FromQuery]RoleQuery query)
+        public ActionResult<IEnumerable<RoleDto>> Get([FromQuery]RoleQuery query)
         {
             try
             {
@@ -51,6 +54,10 @@ namespace Api.Controllers
                 return NotFound();
             }
         }
+
+        /// <summary>
+        /// Returns one specific role
+        /// </summary>
 
         // GET: api/Roles/5
         [HttpGet("{id}")]
@@ -67,6 +74,10 @@ namespace Api.Controllers
 
         }
 
+        /// <summary>
+        /// Insert new role
+        /// </summary>
+
         // POST: api/Roles
         [LoggedIn("Admin")]
         [HttpPost]
@@ -81,8 +92,11 @@ namespace Api.Controllers
             {
                 return StatusCode(422);
             }
-
         }
+
+        /// <summary>
+        /// Role edit
+        /// </summary>
 
         // PUT: api/Roles/5
         [LoggedIn("Admin")]
@@ -106,7 +120,13 @@ namespace Api.Controllers
             }
         }
 
-        // DELETE: api/ApiWithActions/5
+
+        /// <summary>
+        /// Role delete
+        /// </summary>
+        /// 
+
+        // DELETE: api/Roles/5
         [LoggedIn("Admin")]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)

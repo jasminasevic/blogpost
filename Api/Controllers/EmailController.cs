@@ -25,7 +25,7 @@ namespace Api.Controllers
         {
             sender.Subject = "Uspesna registracija";
             sender.ToEmail = email;
-            sender.Body = "Blablabla";
+            sender.Body = "Uspesna registracija";
         }
 
         // GET: api/Email/5

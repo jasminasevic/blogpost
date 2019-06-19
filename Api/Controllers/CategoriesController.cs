@@ -36,10 +36,13 @@ namespace Api.Controllers
         }
 
 
+        /// <summary>
+        /// Returns all categories
+        /// </summary>
 
         // GET: api/Categories
         [HttpGet]
-        public IActionResult Get([FromQuery]CategoryQuery query)
+        public ActionResult<IEnumerable<CategoryDto>> Get([FromQuery]CategoryQuery query)
         {
             try
             {
@@ -50,6 +53,10 @@ namespace Api.Controllers
                 return NotFound();
             }
         }
+
+        /// <summary>
+        /// Returns one specific category
+        /// </summary>
 
         // GET: api/Categories/5
         [HttpGet("{id}")]
@@ -64,6 +71,10 @@ namespace Api.Controllers
                 return NotFound();
             }
         }
+
+        /// <summary>
+        /// Insert new category
+        /// </summary>
 
         // POST: api/Categories
         [LoggedIn]
@@ -81,6 +92,10 @@ namespace Api.Controllers
                 return NotFound();
             }
         }
+
+        /// <summary>
+        /// Category edit
+        /// </summary>
 
         // PUT: api/Categories/5
         [LoggedIn]
@@ -103,6 +118,10 @@ namespace Api.Controllers
                 return StatusCode(422);
             }
         }
+
+        /// <summary>
+        /// Category delete
+        /// </summary>
 
         // DELETE: api/ApiWithActions/5
         [LoggedIn]
