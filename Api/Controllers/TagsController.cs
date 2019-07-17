@@ -16,10 +16,13 @@ namespace Api.Controllers
     public class TagsController : ControllerBase
     {
         private readonly IGetTagsCommand _getTags;
+        private readonly IGetTagCommand _getTag;
 
-        public TagsController(IGetTagsCommand getTags)
+        public TagsController(IGetTagsCommand getTags, 
+                                IGetTagCommand getTag)
         {
             _getTags = getTags;
+            _getTag = getTag;
         }
 
         // GET: api/Tags
@@ -38,10 +41,17 @@ namespace Api.Controllers
         }
 
         // GET: api/Tags/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        [HttpGet("{id}")]
+        public IActionResult Get(int id)
         {
-            return "value";
+            try
+            {
+                return Ok(_getTag.Execute(id));
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
         }
 
         // POST: api/Tags
