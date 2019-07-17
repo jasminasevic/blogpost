@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Domain
+namespace Application.Queries
 {
-    public class Category : BaseEntity
+    public class TagQuery
     {
         public string Name { get; set; }
 
-        public virtual ICollection<Post> Posts { get; set; }
     }
 }

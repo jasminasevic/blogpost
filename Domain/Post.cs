@@ -24,6 +24,6 @@ namespace Domain
 
         public Image Image { get; set; }
 
-        public ICollection<PostTag> PostTags { get; set; }
+        public virtual ICollection<PostTag> PostTags { get; set; }
     }
 }
