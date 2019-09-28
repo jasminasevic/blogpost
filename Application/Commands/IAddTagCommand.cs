@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Application.Commands
 {
-    public interface IAddTagCommand : ICommand<showTagDto>
+    public interface IAddTagCommand : ICommand<ShowPostDtos>
     {
     }
 }

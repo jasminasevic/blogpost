@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Application.DTO
 {
-    public class showTagDto
+    public class ShowPostDtos
     {
         public int Id { get; set; }
 

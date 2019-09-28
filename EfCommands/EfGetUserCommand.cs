@@ -2,8 +2,11 @@
 using Application.DTO;
 using Application.Exceptions;
 using EfDataAccess;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EfCommands
@@ -14,20 +17,38 @@ namespace EfCommands
         {
         }
 
-        public UserDto Execute(int request)
+        public ShowUserDto Execute(int request)
         {
-            var user = Context.Users.Find(request);
+            var user = Context.Users
+                .Include(p => p.Posts)
+                .ThenInclude(pt => pt.PostTags)
+                .ThenInclude(t => t.Tag)
+                .Include(r => r.Role)
+                .Include(p => p.Posts)
+                .ThenInclude(c => c.Category)
+                .Where(u => u.Id == request)
+                .FirstOrDefault();
 
             if (user == null)
                 throw new NotFoundException();
 
-            var dto = new UserDto
+            var dto = new ShowUserDto
             {
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Username = user.Username,
-                Password = user.Password,
-                RoleId = user.RoleId
+                RoleName = user.Role.Name,
+                showPostDtos = user.Posts.Select(p => new ShowPostDto
+                {
+                    Title = p.Title,
+                    Summary = p.Summary,
+                    Text = p.Text,
+                    Category = p.Category.Name,
+                    showTagDtos = p.PostTags.Select(t => new ShowTagDto
+                    {
+                        Name = t.Tag.Name
+                    })
+                })
             };
 
             return dto;
