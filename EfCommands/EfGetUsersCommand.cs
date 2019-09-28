@@ -3,6 +3,7 @@ using Application.DTO;
 using Application.Queries;
 using Application.Responses;
 using EfDataAccess;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,7 +20,11 @@ namespace EfCommands
 
         public PageResponses<ShowUserDto> Execute(UserQuery request)
         {
-            var users = Context.Users.AsQueryable();
+            var users = Context.Users
+                .Include(r => r.Role)
+                .Include(p => p.Posts)
+                .ThenInclude(pt => pt.PostTags)
+                .AsQueryable();
 
             if (request.FirstName != null)
                 users = users.Where(u => u.FirstName.ToLower().Contains(request.FirstName.ToLower()));
@@ -29,6 +34,9 @@ namespace EfCommands
 
             if (request.Username != null)
                 users = users.Where(u => u.Username.ToLower().Contains(request.Username.ToLower()));
+
+            if (request.RoleName != null)
+                users = users.Where(u => u.Role.Name.ToLower().Contains(request.RoleName.ToLower()));
 
             var totalCount = users.Count();
 
@@ -47,6 +55,17 @@ namespace EfCommands
                     LastName = u.LastName,
                     Username = u.Username,
                     RoleName = u.Role.Name,
+                    showPostDtos = u.Posts.Select(p => new ShowPostDto
+                    {
+                        Title = p.Title,
+                        Summary = p.Summary,
+                        Text = p.Text,
+                        Category = p.Category.Name,
+                        showTagDtos = p.PostTags.Select(t => new ShowTagDto
+                        {
+                            Name = t.Tag.Name
+                        })
+                    })
                 })
             };
         }

@@ -27,8 +27,8 @@ namespace EfCommands
                 Summary = post.Summary,
                 Text = post.Text,
                 Category = Context.Categories.Find(post.CategoryId).Name,
-                FirstName = Context.Users.Find(post.UserId).FirstName,
-                LastName = Context.Users.Find(post.UserId).LastName
+                //FirstName = Context.Users.Find(post.UserId).FirstName,
+                //LastName = Context.Users.Find(post.UserId).LastName
             };
 
             return dto;

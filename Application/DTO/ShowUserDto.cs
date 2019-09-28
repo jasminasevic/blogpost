@@ -15,6 +15,6 @@ namespace Application.DTO
 
         public string RoleName { get; set; }
 
-
+        public IEnumerable<ShowPostDto> showPostDtos { get; set; }
     }
 }

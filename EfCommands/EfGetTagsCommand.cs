@@ -18,7 +18,7 @@ namespace EfCommands
         {
         }
 
-        public IEnumerable<TagDto> Execute(TagQuery request)
+        public IEnumerable<showTagDto> Execute(TagQuery request)
         {
             var tags = Context.Tags.AsQueryable();
 
@@ -28,7 +28,7 @@ namespace EfCommands
             return tags
                 .Include(t => t.PostTags)
                 .ThenInclude(pt => pt.Post)
-                .Select(t => new TagDto
+                .Select(t => new showTagDto
                 {
                     Name = t.Name,
                     Title = t.PostTags.Select(pt => pt.Post.Title).ToList()

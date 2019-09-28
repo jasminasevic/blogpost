@@ -14,9 +14,11 @@ namespace Application.DTO
 
         public string Category { get; set; }
 
-        public string FirstName { get; set; }
+        public IEnumerable<ShowTagDto> showTagDtos { get; set; }
 
-        public string LastName { get; set; }
+        //public string FirstName { get; set; }
+
+        //public string LastName { get; set; }
 
 
 

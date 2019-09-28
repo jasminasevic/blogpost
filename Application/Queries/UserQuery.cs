@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Application.DTO;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -11,5 +12,9 @@ namespace Application.Queries
         public string LastName { get; set; }
 
         public string Username { get; set; }
+
+        public string RoleName { get; set; }
+
+
     }
 }

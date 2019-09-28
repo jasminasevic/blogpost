@@ -17,13 +17,20 @@ namespace Api.Controllers
     {
         private readonly IGetTagsCommand _getTags;
         private readonly IGetTagCommand _getTag;
+        private readonly IAddTagCommand _addTag;
 
-        public TagsController(IGetTagsCommand getTags, 
-                                IGetTagCommand getTag)
+        public TagsController(IGetTagsCommand getTags,
+                                IGetTagCommand getTag, 
+                                IAddTagCommand addTag)
         {
             _getTags = getTags;
             _getTag = getTag;
+            _addTag = addTag;
         }
+
+        /// <summary>
+        /// Returns all tags
+        /// </summary>
 
         // GET: api/Tags
         [HttpGet]
@@ -39,6 +46,10 @@ namespace Api.Controllers
                 return NotFound();
             }
         }
+
+        /// <summary>
+        /// Returns one specific tag 
+        /// </summary>
 
         // GET: api/Tags/5
         [HttpGet("{id}")]
@@ -56,8 +67,17 @@ namespace Api.Controllers
 
         // POST: api/Tags
         [HttpPost]
-        public void Post([FromBody] string value)
+        public IActionResult Post([FromBody] showTagDto dto)
         {
+            try
+            {
+                _addTag.Execute(dto);
+                return StatusCode(200);
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return StatusCode(422);
+            }
         }
 
         // PUT: api/Tags/5
