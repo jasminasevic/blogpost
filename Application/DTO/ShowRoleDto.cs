@@ -7,5 +7,7 @@ namespace Application.DTO
     public class ShowRoleDto
     {
         public string Name { get; set; }
+
+        public IEnumerable<BasicUserInfoDto> BasicUserInfoDtos { get; set; }
     }
 }

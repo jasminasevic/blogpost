@@ -3,6 +3,7 @@ using Application.DTO;
 using Application.Queries;
 using Application.Responses;
 using EfDataAccess;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,9 @@ namespace EfCommands
 
         public PageResponses<ShowRoleDto> Execute(RoleQuery request)
         {
-            var query = Context.Roles.AsQueryable();
+            var query = Context.Roles
+                .Include(u => u.Users)
+                .AsQueryable();
 
             if (request.Name != null)
                 query = query.Where(r => r.Name.ToLower().Contains(request.Name.ToLower()));
@@ -36,7 +39,13 @@ namespace EfCommands
                 TotalCount = totalCount,
                 Data = query.Select(r => new ShowRoleDto
                 {
-                    Name = r.Name
+                    Name = r.Name,
+                    BasicUserInfoDtos = r.Users.Select(u => new BasicUserInfoDto
+                    {
+                        FirstName = u.FirstName,
+                        LastName = u.LastName,
+                        Username = u.Username
+                    })
                 })
             };
         }

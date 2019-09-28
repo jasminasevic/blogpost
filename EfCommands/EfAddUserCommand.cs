@@ -36,8 +36,8 @@ namespace EfCommands
 
             Context.SaveChanges();
 
-            _emailSender.Subject = "Uspesna registracija";
-            _emailSender.Body = "Uspesno ste se registrovali.";
+            _emailSender.Subject = "Your registration was successful!";
+            _emailSender.Body = "Thank you for your registration. Have a pleasant stay on our website.";
             _emailSender.ToEmail = request.Username;
             _emailSender.Send();
 
