@@ -3,6 +3,7 @@ using Application.DTO;
 using Application.Queries;
 using Application.Responses;
 using EfDataAccess;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,14 @@ namespace EfCommands
 
         public PageResponses<ShowCategoryDto> Execute(CategoryQuery request)
         {
-            var query = Context.Categories.AsQueryable();
+            var query = Context.Categories
+                .Include(p => p.Posts)
+                .ThenInclude(pt => pt.PostTags)
+                .ThenInclude(t => t.Tag)
+                .Include(p => p.Posts)
+                .ThenInclude(u => u.User)
+                .ThenInclude(r => r.Role)
+                .AsQueryable();
 
             if (request.Name != null)
                 query = query.Where(c => c.Name.ToLower().Contains(request.Name.ToLower()));
@@ -36,14 +44,23 @@ namespace EfCommands
                 TotalCount = totalCount,
                 Data = query.Select(c => new ShowCategoryDto
                 {
-                    Name = c.Name
+                    Name = c.Name,
+                    ShowPostInCategoryDtos = c.Posts.Select(p => new ShowPostInCategoryDto
+                    {
+                        Title = p.Title,
+                        Summary = p.Summary,
+                        Text = p.Text,
+                        FirstName = p.User.FirstName,
+                        LastName = p.User.LastName,
+                        showTagDtos = p.PostTags.Select(pt => new ShowTagDto
+                        {
+                            Name = pt.Tag.Name
+                        })
+                    })
                 })
             };
         }
 
-        public PageResponses<ShowCategoryDto> Execute(RoleQuery request)
-        {
-            throw new NotImplementedException();
-        }
+        
     }
 }
