@@ -8,12 +8,12 @@ namespace Domain
     {
         public int Id { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedAt = DateTime.Now;
 
         public DateTime? ModifiedAt { get; set; }
 
-        public bool IsActive { get; set; }
+        public bool IsActive = true;
 
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted = false;
     }
 }

@@ -16,7 +16,7 @@ namespace EfCommands
         {
         }
 
-        public void Execute(ShowPostDtos request)
+        public void Execute(TagDto request)
         {
             if (Context.Tags.Any(t => t.Name == request.Name))
                 throw new EntityAlreadyExistsException();

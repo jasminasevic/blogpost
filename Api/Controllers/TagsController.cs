@@ -67,7 +67,7 @@ namespace Api.Controllers
 
         // POST: api/Tags
         [HttpPost]
-        public IActionResult Post([FromBody] ShowPostDtos dto)
+        public IActionResult Post([FromBody] TagDto dto)
         {
             try
             {
