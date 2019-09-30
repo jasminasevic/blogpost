@@ -34,7 +34,7 @@ namespace Api.Controllers
 
         // GET: api/Tags
         [HttpGet]
-        public IActionResult Get(TagQuery query)
+        public IActionResult Get([FromQuery] TagQuery query)
         {
             try
             {

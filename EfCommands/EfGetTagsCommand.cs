@@ -18,21 +18,38 @@ namespace EfCommands
         {
         }
 
-        public IEnumerable<ShowPostDtos> Execute(TagQuery request)
+        public IEnumerable<ShowTagDto> Execute(TagQuery request)
         {
-            var tags = Context.Tags.AsQueryable();
+            var tags = Context.Tags
+                .Include(pt => pt.PostTags)
+                .ThenInclude(p => p.Post)
+                .ThenInclude(u => u.User)
+                .ThenInclude(r => r.Role)
+                .Include(pt => pt.PostTags)
+                .ThenInclude(p => p.Post)
+                .ThenInclude(c => c.Category)
+                .AsQueryable();
 
             if (request.Name != null)
                 tags = tags.Where(t => t.Name.ToLower().Contains(request.Name.ToLower()));
 
-            return tags
-                .Include(t => t.PostTags)
-                .ThenInclude(pt => pt.Post)
-                .Select(t => new ShowPostDtos
+
+            var dto = tags.Select(t => new ShowTagDto
+            {
+                Name = t.Name,
+                ShowPostInTagDto = t.PostTags.Select(pt => new ShowPostInTagDto
                 {
-                    Name = t.Name,
-                    Title = t.PostTags.Select(pt => pt.Post.Title).ToList()
-                });
+                    Title = pt.Post.Title,
+                    Summary = pt.Post.Summary,
+                    Text = pt.Post.Text,
+                    CategoryName = pt.Post.Category.Name,
+                    FirstName = pt.Post.User.FirstName,
+                    LastName = pt.Post.User.LastName,
+                    RoleName = pt.Post.User.Role.Name
+                })
+            });
+
+            return dto;
 
         }
 

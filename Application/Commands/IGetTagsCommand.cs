@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Application.Commands
 {
-    public interface IGetTagsCommand : ICommand<TagQuery, IEnumerable<ShowPostDtos>>
+    public interface IGetTagsCommand : ICommand<TagQuery, IEnumerable<ShowTagDto>>
     {
     }
 }
