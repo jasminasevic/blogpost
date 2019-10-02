@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.Helpers;
 using Application.Commands;
 using Application.DTO;
 using Application.Exceptions;
@@ -19,15 +20,17 @@ namespace Api.Controllers
         private readonly IGetTagCommand _getTag;
         private readonly IAddTagCommand _addTag;
         private readonly IEditTagCommand _editTag;
+        private readonly IDeleteTagCommand _deleteTag;
 
         public TagsController(IGetTagsCommand getTags,
                                 IGetTagCommand getTag,
-                                IAddTagCommand addTag, IEditTagCommand editTag)
+                                IAddTagCommand addTag, IEditTagCommand editTag, IDeleteTagCommand deleteTag)
         {
             _getTags = getTags;
             _getTag = getTag;
             _addTag = addTag;
             _editTag = editTag;
+            _deleteTag = deleteTag;
         }
 
         /// <summary>
@@ -67,7 +70,12 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Insert new tag
+        /// </summary>
+
         // POST: api/Tags
+        [LoggedIn]
         [HttpPost]
         public IActionResult Post([FromBody] TagDto dto)
         {
@@ -82,7 +90,12 @@ namespace Api.Controllers
             }
         }
 
+        /// <summary>
+        /// Edit tag
+        /// </summary>
+
         // PUT: api/Tags/5
+        [LoggedIn]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] TagDto dto)
         {
@@ -103,10 +116,24 @@ namespace Api.Controllers
 
         }
 
+        /// <summary>
+        /// Delete tag
+        /// </summary>
+
         // DELETE: api/ApiWithActions/5
+        [LoggedIn]
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            try
+            {
+                _deleteTag.Execute(id);
+                return StatusCode(204);
+            }
+            catch (NotFoundException)
+            {
+                return NotFound();
+            }
         }
     }
 }
