@@ -18,14 +18,16 @@ namespace Api.Controllers
         private readonly IGetTagsCommand _getTags;
         private readonly IGetTagCommand _getTag;
         private readonly IAddTagCommand _addTag;
+        private readonly IEditTagCommand _editTag;
 
         public TagsController(IGetTagsCommand getTags,
-                                IGetTagCommand getTag, 
-                                IAddTagCommand addTag)
+                                IGetTagCommand getTag,
+                                IAddTagCommand addTag, IEditTagCommand editTag)
         {
             _getTags = getTags;
             _getTag = getTag;
             _addTag = addTag;
+            _editTag = editTag;
         }
 
         /// <summary>
@@ -82,8 +84,23 @@ namespace Api.Controllers
 
         // PUT: api/Tags/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] TagDto dto)
         {
+            try
+            {
+                dto.Id = id;
+                _editTag.Execute(dto);
+                return StatusCode(422);
+            }
+            catch(NotFoundException)
+            {
+                return NotFound();
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                return StatusCode(422);
+            }
+
         }
 
         // DELETE: api/ApiWithActions/5

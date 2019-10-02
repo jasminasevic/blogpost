@@ -67,6 +67,7 @@ namespace Api
             services.AddTransient<IGetTagsCommand, EfGetTagsCommand>();
             services.AddTransient<IGetTagCommand, EfGetTagCommand>();
             services.AddTransient<IAddTagCommand, EfAddTagCommand>();
+            services.AddTransient<IEditTagCommand, EfEditTagCommand>();
             //login
             services.AddTransient<ILoginUserCommand, EfLoginUserCommand>();
             //encryption
