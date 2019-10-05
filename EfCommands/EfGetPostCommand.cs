@@ -2,8 +2,10 @@
 using Application.DTO;
 using Application.Exceptions;
 using EfDataAccess;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EfCommands
@@ -14,21 +16,35 @@ namespace EfCommands
         {
         }
 
-        public ShowPostDto Execute(int request)
+        public GetPostDto Execute(int request)
         {
-            var post = Context.Posts.Find(request);
+            var post = Context.Posts
+                .Include(u => u.User)
+                .ThenInclude(r => r.Role)
+                .Include(c => c.Category)
+                .Include(i => i.Image)
+                .Include(pt => pt.PostTags)
+                .ThenInclude(t => t.Tag)
+                .Where(p => p.Id == request)
+                .FirstOrDefault();
+                
 
             if (post == null)
                 throw new NotFoundException();
 
-            var dto = new ShowPostDto
+            var dto = new GetPostDto
             {
                 Title = post.Title,
                 Summary = post.Summary,
                 Text = post.Text,
-                Category = Context.Categories.Find(post.CategoryId).Name,
-                //FirstName = Context.Users.Find(post.UserId).FirstName,
-                //LastName = Context.Users.Find(post.UserId).LastName
+                Category = post.Category.Name,
+                FirstName = post.User.FirstName,
+                LastName = post.User.LastName,
+                ImageId = post.ImageId,
+                ShowTagInPosts = post.PostTags.Select(t => new ShowTagInPosts
+                {
+                    TagName = t.Tag.Name
+                })
             };
 
             return dto;
