@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Application.Commands
 {
-    public interface IGetPostsCommand : ICommand<PostQuery, PageResponses<PostDto>>
+    public interface IGetPostsCommand : ICommand<PostQuery, PageResponses<GetPostDto>>
     {
     }
 }
