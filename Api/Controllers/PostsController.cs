@@ -84,7 +84,7 @@ namespace Api.Controllers
         // POST: api/Posts
         //[LoggedIn]
         [HttpPost]
-        public IActionResult Post([FromBody] PostDto dto)
+        public IActionResult Post([FromForm] PostDto dto)
         {
             try
             {

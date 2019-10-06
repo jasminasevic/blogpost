@@ -135,6 +135,7 @@ namespace Api
 
             app.UseHttpsRedirection();
             app.UseMvc();
+            app.UseStaticFiles();
 
 
             //swagger

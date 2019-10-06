@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
@@ -26,6 +27,8 @@ namespace Application.DTO
         public string Category { get; set; }
         
         public int ImageId { get; set; }
+
+        public IFormFile Image { get; set; }
 
         [Required(ErrorMessage = "This fiels is required")]
         public int CategoryId { get; set; }
