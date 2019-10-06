@@ -82,7 +82,7 @@ namespace Api.Controllers
         /// </summary>
 
         // POST: api/Posts
-        [LoggedIn]
+        //[LoggedIn]
         [HttpPost]
         public IActionResult Post([FromBody] PostDto dto)
         {

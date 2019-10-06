@@ -27,12 +27,14 @@ namespace Application.DTO
         
         public int ImageId { get; set; }
 
-        public IEnumerable<TagDto> TagDtos { get; set; }
-
         [Required(ErrorMessage = "This fiels is required")]
         public int CategoryId { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
         public int UserId { get; set; }
+
+        //public int TagId { get; set; }
+        
+        public IEnumerable<AddTagsInPost> AddTagsInPost { get; set; }
     }
 }

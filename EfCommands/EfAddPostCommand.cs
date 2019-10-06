@@ -31,6 +31,17 @@ namespace EfCommands
             });
 
             Context.SaveChanges();
+
+            foreach(var tag in request.AddTagsInPost)
+            {
+                Context.PostTags.Add(new Domain.PostTag
+                {
+                    PostId = Context.Posts.Max(p => p.Id),
+                    TagId = tag.Id
+                });
+            }
+           
+            Context.SaveChanges();
         }
     }
 }
