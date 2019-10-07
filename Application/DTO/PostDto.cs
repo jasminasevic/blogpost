@@ -20,11 +20,11 @@ namespace Application.DTO
         [Required(ErrorMessage = "This field is required")]
         public string Text { get; set; }
 
-        public string FirstName { get; set; }
+       // public string FirstName { get; set; }
 
-        public string LastName { get; set; }
+       // public string LastName { get; set; }
 
-        public string Category { get; set; }
+       // public string Category { get; set; }
         
         public int ImageId { get; set; }
 
@@ -35,8 +35,6 @@ namespace Application.DTO
 
         [Required(ErrorMessage = "This field is required")]
         public int UserId { get; set; }
-
-        //public int TagId { get; set; }
         
         public IEnumerable<AddTagsInPost> AddTagsInPost { get; set; }
     }

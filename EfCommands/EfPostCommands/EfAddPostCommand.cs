@@ -25,7 +25,7 @@ namespace EfCommands
             var ext = Path.GetExtension(request.Image.FileName);
             if (!FileUpload.AllowedExtensions.Contains(ext))
             {
-                throw new Exception("Extension not ok");
+                throw new Exception("File extension is not ok");
             }
 
             try
