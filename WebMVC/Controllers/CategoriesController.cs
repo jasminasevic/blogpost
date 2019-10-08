@@ -16,19 +16,19 @@ namespace WebMVC.Controllers
     public class CategoriesController : Controller
     {
         private readonly IAddCategoryCommand _addCategory;
-        private readonly IGetSearchCategoriesCommand _getSearchCategories;
+        private readonly IGetCategoriesCommand _getCategories;
         private readonly IGetCategoryCommand _getCategory;
         private readonly IEditCategoryCommand _editCategory;
         private readonly IDeleteCategoryCommand _deleteCategory;
 
         public CategoriesController(IAddCategoryCommand addCategory,
-                                    IGetSearchCategoriesCommand getSearchCategories,
+                                    IGetCategoriesCommand getCategories,
                                     IGetCategoryCommand getCategory,
                                     IEditCategoryCommand editCategory,
                                     IDeleteCategoryCommand deleteCategory)
         {
             _addCategory = addCategory;
-            _getSearchCategories = getSearchCategories;
+            _getCategories = getCategories;
             _getCategory = getCategory;
             _editCategory = editCategory;
             _deleteCategory = deleteCategory;
@@ -36,9 +36,9 @@ namespace WebMVC.Controllers
 
 
         // GET: Categories
-        public ActionResult Index(CategorySearch search)
+        public ActionResult Index(CategoryQuery query)
         {
-            var categoryList = _getSearchCategories.Execute(search);
+            var categoryList = _getCategories.Execute(query);
             return View(categoryList);
         }
 

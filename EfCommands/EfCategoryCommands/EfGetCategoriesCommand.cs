@@ -44,6 +44,7 @@ namespace EfCommands
                 TotalCount = totalCount,
                 Data = query.Select(c => new ShowCategoryDto
                 {
+                    Id = c.Id,
                     Name = c.Name,
                     ShowPostInCategoryDtos = c.Posts.Select(p => new ShowPostInCategoryDto
                     {

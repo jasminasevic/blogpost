@@ -37,7 +37,7 @@ namespace WebMVC
             services.AddDbContext<EfContext>();
             //categories
             services.AddTransient<IAddCategoryCommand, EfAddCategoryCommand>();
-            services.AddTransient<IGetSearchCategoriesCommand, EfGetSearchCategoryCommand>();
+            services.AddTransient<IGetCategoriesCommand, EfGetCategoriesCommand>();
             services.AddTransient<IGetCategoryCommand, EfGetCategoryCommand>();
             services.AddTransient<IEditCategoryCommand, EfEditCategoryCommand>();
             services.AddTransient<IDeleteCategoryCommand, EfDeleteCategoryCommand>();
