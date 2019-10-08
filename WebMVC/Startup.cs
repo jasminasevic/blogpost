@@ -43,8 +43,8 @@ namespace WebMVC
             services.AddTransient<IDeleteCategoryCommand, EfDeleteCategoryCommand>();
             //users
             services.AddTransient<IGetUserCommand, EfGetUserCommand>();
-            services.AddTransient<IGetSearchUsersCommand, EfGetSearchUserCommand>();
-            services.AddTransient<IAddUserCommand, EfAddUserCommand>();
+            services.AddTransient<IGetUsersCommand, EfGetUsersCommand>();
+         //   services.AddTransient<IAddUserCommand, EfAddUserCommand>();
             services.AddTransient<IEditUserCommand, EfEditUserCommand>();
             services.AddTransient<IDeleteUserCommand, EfDeleteUserCommand>();
 

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Application.Commands;
 using Application.DTO;
 using Application.Exceptions;
+using Application.Queries;
 using Application.Searches;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,28 +15,28 @@ namespace WebMVC.Controllers
     public class UsersController : Controller
     {
         private readonly IGetUserCommand _getUser;
-        private readonly IGetSearchUsersCommand _getSearchUsers;
-        private readonly IAddUserCommand _addUser;
+        private readonly IGetUsersCommand _getUsers;
+   //     private readonly IAddUserCommand _addUser;
         private readonly IEditUserCommand _editUser;
         private readonly IDeleteUserCommand _deleteUser;
 
         public UsersController(IGetUserCommand getUser,
-                               IGetSearchUsersCommand getSearchUsers,
-                               IAddUserCommand addUser, 
+                               IGetUsersCommand getUsers,
+     //                          IAddUserCommand addUser, 
                                IEditUserCommand editUser,
                                IDeleteUserCommand deleteUser)
         {
             _getUser = getUser;
-            _getSearchUsers = getSearchUsers;
-            _addUser = addUser;
+            _getUsers = getUsers;
+     //       _addUser = addUser;
             _editUser = editUser;
             _deleteUser = deleteUser;
         }
 
         // GET: Users
-        public ActionResult Index(UserSearch search)
+        public ActionResult Index(UserQuery query)
         {
-            var users = _getSearchUsers.Execute(search);
+            var users = _getUsers.Execute(query);
             return View(users);
         }
 
@@ -70,7 +71,7 @@ namespace WebMVC.Controllers
             }
             try
             {
-                _addUser.Execute(dto);
+               // _addUser.Execute(dto);
                 return RedirectToAction(nameof(Index));
             }
             catch (EntityAlreadyExistsException)

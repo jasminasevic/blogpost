@@ -33,6 +33,7 @@ namespace EfCommands
 
             return new ShowCategoryDto
             {
+                Id = category.Id,
                 Name = category.Name,
                 ShowPostInCategoryDtos = category.Posts.Select(p => new ShowPostInCategoryDto
                 {

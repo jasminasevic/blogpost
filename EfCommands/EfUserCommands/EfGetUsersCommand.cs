@@ -51,6 +51,7 @@ namespace EfCommands
                 TotalCount = totalCount,
                 Data = users.Select(u => new ShowUserDto
                 {
+                    Id = u.Id,
                     FirstName = u.FirstName,
                     LastName = u.LastName,
                     Username = u.Username,
