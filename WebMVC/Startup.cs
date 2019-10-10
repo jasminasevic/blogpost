@@ -49,6 +49,7 @@ namespace WebMVC
             services.AddTransient<IDeleteUserCommand, EfDeleteUserCommand>();
             //roles
             services.AddTransient<IGetRolesCommand, EfGetRolesCommand>();
+            services.AddTransient<IGetRoleCommand, EfGetRoleCommand>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

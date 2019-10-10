@@ -28,6 +28,7 @@ namespace EfCommands
 
             return new ShowRoleDto
             {
+                Id = role.Id,
                 Name = role.Name,
                 BasicUserInfoDtos = role.Users.Select(u => new BasicUserInfoDto
                 {

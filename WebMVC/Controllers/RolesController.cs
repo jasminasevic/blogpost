@@ -12,10 +12,12 @@ namespace WebMVC.Controllers
     public class RolesController : Controller
     {
         protected readonly IGetRolesCommand _getRoles;
+        protected readonly IGetRoleCommand _getRole;
 
-        public RolesController(IGetRolesCommand getRoles)
+        public RolesController(IGetRolesCommand getRoles, IGetRoleCommand getRole)
         {
             _getRoles = getRoles;
+            _getRole = getRole;
         }
 
         // GET: Roles
@@ -28,7 +30,15 @@ namespace WebMVC.Controllers
         // GET: Roles/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            try
+            {
+                var role = _getRole.Execute(id);
+                return View(role);
+            }
+            catch (Exception)
+            {
+                return View();
+            }
         }
 
         // GET: Roles/Create

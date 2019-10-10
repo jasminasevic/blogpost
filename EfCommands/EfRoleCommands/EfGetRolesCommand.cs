@@ -39,6 +39,7 @@ namespace EfCommands
                 TotalCount = totalCount,
                 Data = query.Select(r => new ShowRoleDto
                 {
+                    Id = r.Id,
                     Name = r.Name,
                     BasicUserInfoDtos = r.Users.Select(u => new BasicUserInfoDto
                     {
