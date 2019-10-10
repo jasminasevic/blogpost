@@ -34,6 +34,7 @@ namespace EfCommands
 
             var dto = new ShowUserDto
             {
+                Id = user.Id,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
                 Username = user.Username,

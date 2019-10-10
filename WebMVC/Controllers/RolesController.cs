@@ -16,12 +16,14 @@ namespace WebMVC.Controllers
         protected readonly IGetRolesCommand _getRoles;
         protected readonly IGetRoleCommand _getRole;
         protected readonly IAddRoleCommand _addRole;
+        protected readonly IEditRoleCommand _editRole;
 
-        public RolesController(IGetRolesCommand getRoles, IGetRoleCommand getRole, IAddRoleCommand addRole)
+        public RolesController(IGetRolesCommand getRoles, IGetRoleCommand getRole, IAddRoleCommand addRole, IEditRoleCommand editRole)
         {
             _getRoles = getRoles;
             _getRole = getRole;
             _addRole = addRole;
+            _editRole = editRole;
         }
 
         // GET: Roles
@@ -80,23 +82,45 @@ namespace WebMVC.Controllers
         // GET: Roles/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            try
+            {
+                var dto = _getRole.Execute(id);
+                return View(dto);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("index");
+            }
         }
 
         // POST: Roles/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, RoleDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(dto);
+            }
             try
             {
                 // TODO: Add update logic here
-
+                _editRole.Execute(dto);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch (NotFoundException)
             {
-                return View();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                TempData["error"] = "Role with the same name already exists.";
+                return View(dto);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Something went wrong. Please try again.";
+                return View(dto);
             }
         }
 

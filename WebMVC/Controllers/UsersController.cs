@@ -50,6 +50,7 @@ namespace WebMVC.Controllers
             }
             catch(Exception)
             {
+                TempData["error"] = "Something went wrong. Please try again.";
                 return View();
             }
         }
@@ -125,7 +126,7 @@ namespace WebMVC.Controllers
             }
             catch(Exception)
             {
-                TempData["error"] = "Role Id is not valid.";
+                TempData["error"] = "Something went wrong. Please try again.";
                 return View(dto);
             }
         }

@@ -4,6 +4,11 @@
     ViewData["Title"] = "Index";
 }
 
+@if(TempData["error"] != null)
+{
+    <p class="alert-danger">@TempData["error"]</p>
+}
+
 <h2>Index</h2>
 
 <p>
