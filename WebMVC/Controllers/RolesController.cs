@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Commands;
+using Application.DTO;
+using Application.Exceptions;
 using Application.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +15,13 @@ namespace WebMVC.Controllers
     {
         protected readonly IGetRolesCommand _getRoles;
         protected readonly IGetRoleCommand _getRole;
+        protected readonly IAddRoleCommand _addRole;
 
-        public RolesController(IGetRolesCommand getRoles, IGetRoleCommand getRole)
+        public RolesController(IGetRolesCommand getRoles, IGetRoleCommand getRole, IAddRoleCommand addRole)
         {
             _getRoles = getRoles;
             _getRole = getRole;
+            _addRole = addRole;
         }
 
         // GET: Roles
@@ -50,18 +54,27 @@ namespace WebMVC.Controllers
         // POST: Roles/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(RoleDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(dto);
+            }
             try
             {
                 // TODO: Add insert logic here
-
+                _addRole.Execute(dto);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(EntityAlreadyExistsException)
             {
-                return View();
+                TempData["error"] = "Role with the same name already exists";
             }
+            catch (Exception)
+            {
+                TempData["error"] = "Some error occurred. Please try again.";
+            }
+            return View();
         }
 
         // GET: Roles/Edit/5

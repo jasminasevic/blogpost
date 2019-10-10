@@ -50,6 +50,7 @@ namespace WebMVC
             //roles
             services.AddTransient<IGetRolesCommand, EfGetRolesCommand>();
             services.AddTransient<IGetRoleCommand, EfGetRoleCommand>();
+            services.AddTransient<IAddRoleCommand, EfAddRoleCommand>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
