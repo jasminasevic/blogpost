@@ -17,13 +17,15 @@ namespace WebMVC.Controllers
         protected readonly IGetRoleCommand _getRole;
         protected readonly IAddRoleCommand _addRole;
         protected readonly IEditRoleCommand _editRole;
+        protected readonly IDeleteRoleCommand _deleteRole;
 
-        public RolesController(IGetRolesCommand getRoles, IGetRoleCommand getRole, IAddRoleCommand addRole, IEditRoleCommand editRole)
+        public RolesController(IGetRolesCommand getRoles, IGetRoleCommand getRole, IAddRoleCommand addRole, IEditRoleCommand editRole, IDeleteRoleCommand deleteRole)
         {
             _getRoles = getRoles;
             _getRole = getRole;
             _addRole = addRole;
             _editRole = editRole;
+            _deleteRole = deleteRole;
         }
 
         // GET: Roles
@@ -124,26 +126,21 @@ namespace WebMVC.Controllers
             }
         }
 
+        
+
         // GET: Roles/Delete/5
         public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: Roles/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
         {
             try
             {
                 // TODO: Add delete logic here
-
+                _deleteRole.Execute(id);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(Exception)
             {
-                return View();
+                TempData["error"] = "Some error occured. Please try again.";
+                return RedirectToAction(nameof(Index));
             }
         }
     }
