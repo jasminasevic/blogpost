@@ -34,6 +34,7 @@ namespace EfCommands
 
             var dto = new GetPostDto
             {
+                Id = post.Id,
                 Title = post.Title,
                 Summary = post.Summary,
                 Text = post.Text,

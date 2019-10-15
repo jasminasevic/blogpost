@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Commands;
+using Application.Exceptions;
 using Application.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,10 +13,12 @@ namespace WebMVC.Controllers
     public class PostsController : Controller
     {
         protected readonly IGetPostsCommand _getPosts;
+        protected readonly IGetPostCommand _getPost;
 
-        public PostsController(IGetPostsCommand getPosts)
+        public PostsController(IGetPostsCommand getPosts, IGetPostCommand getPost)
         {
             _getPosts = getPosts;
+            _getPost = getPost;
         }
 
         // GET: Posts
@@ -28,7 +31,21 @@ namespace WebMVC.Controllers
         // GET: Posts/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            try
+            {
+                var dto = _getPost.Execute(id);
+                return View(dto);
+            }
+            catch (NotFoundException)
+            {
+                TempData["error"] = "There is no post with that id.";
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Something went wrong. Please try again.";
+                return View();
+            }
         }
 
         // GET: Posts/Create

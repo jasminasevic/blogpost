@@ -55,6 +55,7 @@ namespace WebMVC
             services.AddTransient<IDeleteRoleCommand, EfDeleteRoleCommand>();
             //posts
             services.AddTransient<IGetPostsCommand, EfGetPostsCommand>();
+            services.AddTransient<IGetPostCommand, EfGetPostCommand>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
