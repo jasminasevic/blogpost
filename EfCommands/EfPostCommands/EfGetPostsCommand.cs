@@ -50,6 +50,7 @@ namespace EfCommands
                 TotalCount = totalCount,
                 Data = posts.Select(p => new GetPostDto
                 {
+                    Id = p.Id,
                     Title = p.Title,
                     Summary = p.Summary,
                     Text = p.Text,
