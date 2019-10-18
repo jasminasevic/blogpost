@@ -36,6 +36,7 @@ namespace EfCommands
 
             var dto = tags.Select(t => new ShowTagDto
             {
+                Id = t.Id,
                 Name = t.Name,
                 ShowPostInTagDto = t.PostTags.Select(pt => new ShowPostInTagDto
                 {

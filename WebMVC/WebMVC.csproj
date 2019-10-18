@@ -15,4 +15,8 @@
     <ProjectReference Include="..\EfDataAccess\EfDataAccess.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\uploads\" />
+  </ItemGroup>
+
 </Project>

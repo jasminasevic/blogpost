@@ -3,7 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Commands;
+using Application.Commands.CategoryCommands;
+using Application.Commands.TagCommands;
+using Application.Commands.UserCommands;
 using EfCommands;
+using EfCommands.EfCategoryCommands;
+using EfCommands.EfTagCommands;
+using EfCommands.EfUserCommands;
 using EfDataAccess;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -56,6 +62,11 @@ namespace WebMVC
             //posts
             services.AddTransient<IGetPostsCommand, EfGetPostsCommand>();
             services.AddTransient<IGetPostCommand, EfGetPostCommand>();
+            services.AddTransient<IDeletePostCommand, EfDeletePostCommand>();
+            services.AddTransient<IAddPostCommand, EfAddPostCommand>();
+            services.AddTransient<IGetCategoriesWithoutPaginationCommand, EfGetCategoriesWithoutPaginationCommand>();
+            services.AddTransient<IGetUsersWithoutPaginationCommand, EfGetUsersWithoutPaginationCommand>();
+            services.AddTransient<IGetTagsWithoutPaginationCommand, EfGetTagsWithoutPaginationCommand>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -76,6 +87,7 @@ namespace WebMVC
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            app.UseStaticFiles();
 
             app.UseMvc(routes =>
             {

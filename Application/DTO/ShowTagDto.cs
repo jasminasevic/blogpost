@@ -6,6 +6,7 @@ namespace Application.DTO
 {
     public class ShowTagDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
 
         public IEnumerable<ShowPostInTagDto> ShowPostInTagDto { get; set; }
