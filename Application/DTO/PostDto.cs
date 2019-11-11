@@ -37,11 +37,14 @@ namespace Application.DTO
         public IFormFile Image { get; set; }
 
         [Required(ErrorMessage = "This fiels is required")]
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
+        [Display(Name = "User")]
         public int UserId { get; set; }
 
+        [Display(Name = "Tags")]
         public List<int> AddTagsInPost { get; set; } 
     }
 }
