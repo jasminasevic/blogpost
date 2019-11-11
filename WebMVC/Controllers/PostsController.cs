@@ -81,7 +81,7 @@ namespace WebMVC.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(PostDto dto)
-        {
+         {
             try
             {
                 // TODO: Add insert logic here
@@ -91,12 +91,17 @@ namespace WebMVC.Controllers
             catch (EntityAlreadyExistsException)
             {
                 TempData["error"] = "Post with the same title already exists";
-                return View(dto);
+                return View();
+            }
+            catch (NotFoundException)
+            {
+                TempData["error"] = "The title has to be added";
+                return View();
             }
             catch
             {
                 TempData["error"] = "Something went wrong. Please try again.";
-                return View(dto);
+                return View();
             }
         }
 

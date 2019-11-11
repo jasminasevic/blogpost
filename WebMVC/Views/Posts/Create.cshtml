@@ -8,7 +8,7 @@
 
 <h4>PostDto</h4>
 
-@if(TempData["error"] != null)
+@if (TempData["error"] != null)
 {
     <p class="alert-danger">@TempData["error"]</p>
 }
@@ -63,10 +63,13 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="AddTagsInPost" class="control-label"></label><br/>
-                @foreach(var t in ViewBag.Tags)
+                <label asp-for="AddTagsInPost" class="control-label"></label><br />
+
+               
+
+                @foreach (var t in ViewBag.Tags)
                 {
-                    <input type="checkbox" value="@t.Id" name="AddTagsInPost"/> @t.Name <br/>
+                    <input type="checkbox" value="@t.Id" name="AddTagsInPost" /> @t.Name <br />
                 }
 
                 <span asp-validation-for="AddTagsInPost" class="text-danger"></span>

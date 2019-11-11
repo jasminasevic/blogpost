@@ -22,51 +22,44 @@ namespace EfCommands
             if (Context.Posts.Any(p => p.Title == request.Title))
                 throw new EntityAlreadyExistsException();
 
+            if (request.Title == null)
+                throw new Exception();
+
             var ext = Path.GetExtension(request.Image.FileName);
             if (!FileUpload.AllowedExtensions.Contains(ext))
             {
                 throw new Exception("File extension is not ok");
             }
 
-            try
+            var newFileName = Guid.NewGuid().ToString() + "_" + request.Image.FileName;
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", newFileName);
+            request.Image.CopyTo(new FileStream(filePath, FileMode.Create));
+
+            var image = new Domain.Image
             {
-                var newFileName = Guid.NewGuid().ToString() + "_" + request.Image.FileName;
-                var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", newFileName);
-                request.Image.CopyTo(new FileStream(filePath, FileMode.Create));
+                Alt = request.Title,
+                Path = newFileName
+            };
 
-                Context.Images.Add(new Domain.Image
-                {
-                    Alt = request.Title,
-                    Path = newFileName
-                });
+            Context.Images.Add(image);
 
-                Context.SaveChanges();
-            }
-
-            catch (Exception)
-            {
-                throw new Exception("File upload failed");
-            }
-
-
-            Context.Posts.Add(new Domain.Post
+            var post = new Domain.Post
             {
                 Title = request.Title,
                 Summary = request.Summary,
                 Text = request.Text,
                 CategoryId = request.CategoryId,
                 UserId = request.UserId,
-                ImageId = Context.Images.Max(i => i.Id)
-            });
-
-            Context.SaveChanges();
+                Image = image
+            };
+            Context.Posts.Add(post);
 
             foreach(var tag in request.AddTagsInPost)
             {
                 Context.PostTags.Add(new Domain.PostTag
                 {
-                    PostId = Context.Posts.Max(p => p.Id),
-                    TagId = tag.Id
+                    Post = post,
+                    TagId = tag
                 });
             }
            

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -8,6 +9,11 @@ namespace Application.DTO
 {
     public class PostDto
     {
+        //public PostDto()
+        //{
+        //    AddTagsInPost = new List<AddTagsInPost>();
+        //}
+        
         public int Id { get; set; }
 
         [Required(ErrorMessage = "This field is required")]
@@ -35,7 +41,7 @@ namespace Application.DTO
 
         [Required(ErrorMessage = "This field is required")]
         public int UserId { get; set; }
-        
-        public IEnumerable<AddTagsInPost> AddTagsInPost { get; set; }
+
+        public List<int> AddTagsInPost { get; set; } 
     }
 }

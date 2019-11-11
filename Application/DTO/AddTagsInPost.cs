@@ -7,5 +7,6 @@ namespace Application.DTO
     public class AddTagsInPost
     {
         public int Id { get; set; }
+
     }
 }
