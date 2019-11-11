@@ -22,6 +22,8 @@ namespace Application.DTO
 
         public int ImageId { get; set; }
 
+        public string Image { get; set; }
+
         public IEnumerable<ShowTagInPosts> ShowTagInPosts { get; set; }
 
     }

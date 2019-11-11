@@ -36,7 +36,7 @@
                     Category
                 </th>
                 <th>
-                    ImageId
+                    Image
                 </th>
                 <th></th>
             </tr>
@@ -62,7 +62,7 @@
                         @Html.DisplayFor(modelItem => item.Category)
                     </td>
                     <td>
-                        @Html.DisplayFor(modelItem => item.ImageId)
+                        <img src="~/uploads/@Html.DisplayFor(modelItem => item.Image)" width="300" />
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |

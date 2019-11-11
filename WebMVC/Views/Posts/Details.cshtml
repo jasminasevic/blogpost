@@ -12,7 +12,7 @@
     <p class="alert-danger">@TempData["error"]</p>
 }
 <div>
-    <h4>GetPostDto</h4>
+    <h4>Post</h4>
     <hr />
     <dl class="dl-horizontal">
 
@@ -48,10 +48,10 @@
             @Html.DisplayFor(model => model.Category)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.ImageId)
+            @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.ImageId)
+            <img src="~/uploads/@Html.DisplayFor(model => model.Image)" width="300"/>
         </dd>
     </dl>
 </div>

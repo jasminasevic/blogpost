@@ -42,6 +42,7 @@ namespace EfCommands
                 FirstName = post.User.FirstName,
                 LastName = post.User.LastName,
                 ImageId = post.ImageId,
+                Image = post.Image.Path,
                 ShowTagInPosts = post.PostTags.Select(t => new ShowTagInPosts
                 {
                     TagName = t.Tag.Name
