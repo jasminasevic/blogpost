@@ -24,6 +24,7 @@ namespace Application.DTO
 
         public string Image { get; set; }
 
+        [Display(Name = "Tags")]
         public IEnumerable<ShowTagInPosts> ShowTagInPosts { get; set; }
 
     }

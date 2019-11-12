@@ -51,7 +51,17 @@
             @Html.DisplayNameFor(model => model.Image)
         </dt>
         <dd>
-            <img src="~/uploads/@Html.DisplayFor(model => model.Image)" width="300"/>
+            <img src="~/uploads/@Html.DisplayFor(model => model.Image)" width="300" />
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ShowTagInPosts)
+        </dt>
+        <dd>
+            @foreach(var item in Model.ShowTagInPosts)
+            {
+                @item.TagName<br/>
+            }
+
         </dd>
     </dl>
 </div>
