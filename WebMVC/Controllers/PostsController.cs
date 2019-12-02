@@ -11,6 +11,7 @@ using Application.Exceptions;
 using Application.Queries;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace WebMVC.Controllers
 {
@@ -23,14 +24,16 @@ namespace WebMVC.Controllers
         protected readonly IGetCategoriesWithoutPaginationCommand _getCategories;
         protected readonly IGetUsersWithoutPaginationCommand _getUsers;
         protected readonly IGetTagsWithoutPaginationCommand _getTags;
+        protected readonly IEditPostCommand _editPost;
 
         public PostsController(IGetPostsCommand getPosts,
             IGetPostCommand getPost,
             IDeletePostCommand deletePost,
             IAddPostCommand addPost,
             IGetCategoriesWithoutPaginationCommand getCategories,
-            IGetUsersWithoutPaginationCommand getUsers, 
-            IGetTagsWithoutPaginationCommand getTags)
+            IGetUsersWithoutPaginationCommand getUsers,
+            IGetTagsWithoutPaginationCommand getTags, 
+            IEditPostCommand editPost)
         {
             _getPosts = getPosts;
             _getPost = getPost;
@@ -39,6 +42,7 @@ namespace WebMVC.Controllers
             _getCategories = getCategories;
             _getUsers = getUsers;
             _getTags = getTags;
+            _editPost = editPost;
         }
 
         // GET: Posts
@@ -108,23 +112,49 @@ namespace WebMVC.Controllers
         // GET: Posts/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            try
+            {
+                ViewBag.Categories = _getCategories.Execute(new GeneralSearchQuery());
+                ViewBag.Users = _getUsers.Execute(new GeneralSearchQuery());
+                ViewBag.Tags = _getTags.Execute(new GeneralSearchQuery());
+                var post = _getPost.Execute(id);
+                return View(post);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
+
 
         // POST: Posts/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit([FromForm] int id, GetPostDto dto)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(dto);
+            }
             try
             {
                 // TODO: Add update logic here
-
+                _editPost.Execute(dto);
                 return RedirectToAction(nameof(Index));
             }
-            catch
+            catch(NotFoundException)
             {
-                return View();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (EntityAlreadyExistsException)
+            {
+                TempData["error"] = "User with the same username already exists.";
+                return View(dto);
+            }
+            catch (Exception)
+            {
+                TempData["error"] = "Something went wrong. Please try again.";
+                return View(dto);
             }
         }
 

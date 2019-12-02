@@ -67,6 +67,7 @@ namespace WebMVC
             services.AddTransient<IGetCategoriesWithoutPaginationCommand, EfGetCategoriesWithoutPaginationCommand>();
             services.AddTransient<IGetUsersWithoutPaginationCommand, EfGetUsersWithoutPaginationCommand>();
             services.AddTransient<IGetTagsWithoutPaginationCommand, EfGetTagsWithoutPaginationCommand>();
+            services.AddTransient<IEditPostCommand, EfEditPostCommand>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

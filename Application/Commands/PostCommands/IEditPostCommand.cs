@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Application.Commands
 {
-    public interface IEditPostCommand : ICommand<PostDto>
+    public interface IEditPostCommand : ICommand<GetPostDto>
     {
     }
 }
