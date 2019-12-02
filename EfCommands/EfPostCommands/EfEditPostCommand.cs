@@ -30,8 +30,24 @@ namespace EfCommands
             post.Title = request.Title;
             post.Summary = request.Summary;
             post.Text = request.Text;
+            post.UserId = request.UserId;
+            post.CategoryId = request.CategoryId;
 
-            if (request.ImageFile.FileName != "")
+            foreach (var p in Context.PostTags.Where(p => p.PostId == request.Id))
+            {
+                Context.PostTags.Remove(p);
+            }
+
+            foreach (var tag in request.TagsInPost)
+            {
+                Context.PostTags.Add(new Domain.PostTag
+                {
+                    PostId = post.Id,
+                    TagId = tag
+                });
+            }
+
+            if (request.ImageFile != null)
             {
                 var ext = Path.GetExtension(request.ImageFile.FileName);
                 if (!FileUpload.AllowedExtensions.Contains(ext))
@@ -51,14 +67,15 @@ namespace EfCommands
 
                 Context.Images.Add(image);
 
-                post.Image = image; 
+                post.Image = image;
+
+                Context.SaveChanges();
+            }
+            else
+            {
+                Context.SaveChanges();
             }
 
-            
-            post.UserId = request.UserId;
-            post.CategoryId = request.CategoryId;
-
-            Context.SaveChanges();
         }
     }
 }

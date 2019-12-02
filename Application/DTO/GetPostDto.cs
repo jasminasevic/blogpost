@@ -22,7 +22,7 @@ namespace Application.DTO
 
         public string LastName { get; set; }
 
-        [Display(Name="Category")]
+        [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
         public string Category { get; set; }
@@ -32,10 +32,13 @@ namespace Application.DTO
 
         public string Image { get; set; }
 
+        [Display(Name = "Image")]
         public IFormFile ImageFile { get; set; }
 
         [Display(Name = "Tags")]
         public IEnumerable<ShowTagInPosts> ShowTagInPosts { get; set; }
+
+        public List<int> TagsInPost { get; set; }
 
     }
 }

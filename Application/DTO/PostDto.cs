@@ -8,12 +8,7 @@ using System.Text;
 namespace Application.DTO
 {
     public class PostDto
-    {
-        //public PostDto()
-        //{
-        //    AddTagsInPost = new List<AddTagsInPost>();
-        //}
-        
+    {   
         public int Id { get; set; }
 
         [Required(ErrorMessage = "This field is required")]

@@ -76,11 +76,11 @@
                 {
                     if (Model.ShowTagInPosts.Any(t => t.TagName == tag.Name))
                     {
-                        <input type="checkbox" checked name="tags" value="@tag.Id" /> <span>@tag.Name</span> <br />
+                        <input type="checkbox" checked name="TagsInPost" value="@tag.Id" /> <span>@tag.Name</span> <br />
                     }
                     else
                     {
-                        <input type="checkbox" name="tags" value="@tag.Id" /> <span>@tag.Name</span> <br />
+                        <input type="checkbox" name="TagsInPost" value="@tag.Id" /> <span>@tag.Name</span> <br />
                     }
                 }
             </div>
