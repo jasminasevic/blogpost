@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Index";
+    ViewData["Controller"] = "users";
+    ViewData["Action"] = "Index";
 }
 
 <h2>Index</h2>
@@ -56,4 +58,7 @@
         </tr>
 }
     </tbody>
+
 </table>
+
+<partial name="_PaginationPartial" model="Model" view-data="ViewData" />

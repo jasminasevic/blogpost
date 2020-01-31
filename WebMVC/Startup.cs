@@ -69,6 +69,9 @@ namespace WebMVC
             services.AddTransient<IGetTagsWithoutPaginationCommand, EfGetTagsWithoutPaginationCommand>();
             services.AddTransient<IEditPostCommand, EfEditPostCommand>();
 
+            //pagination
+            services.AddCloudscribePagination();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

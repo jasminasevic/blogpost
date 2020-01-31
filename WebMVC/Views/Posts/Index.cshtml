@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Index";
+    ViewData["Controller"] = "posts";
+    ViewData["Action"] = "Index";
 }
 
 <h2>Index</h2>
@@ -10,45 +12,45 @@
     <a asp-action="Create">Create New</a>
 </p>
 
-    @if (TempData["error"] != null)
-    {
+@if (TempData["error"] != null)
+{
     <p class="alert-danger">@TempData["error"]</p>
-    }
+}
 
 
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Title
-                </th>
-                <th>
-                    Summary
-                </th>
-                <th>
-                    Text
-                </th>
-                <th>
-                    Author
-                </th>
-                <th>
-                    Category
-                </th>
-                <th>
-                    Image
-                </th>
-                <th>
-                    Tags
-                </th>
-                <th>
-                    Action
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.Data)
-            {
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Summary
+            </th>
+            <th>
+                Text
+            </th>
+            <th>
+                Author
+            </th>
+            <th>
+                Category
+            </th>
+            <th>
+                Image
+            </th>
+            <th>
+                Tags
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Data)
+        {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Title)
@@ -81,6 +83,9 @@
                     @Html.ActionLink("Delete", "Delete", new { id = item.Id })
                 </td>
             </tr>
-            }
-        </tbody>
-    </table>
+        }
+    </tbody>
+
+</table>
+
+<partial name="_PaginationPartial" model="Model" view-data="ViewData"/>
