@@ -35,9 +35,10 @@ namespace WebMVC.Controllers
         }
 
         // GET: Users
-        public ActionResult Index(string SortOrder, UserQuery query)
+        public ActionResult Index(string SearchString, string SortOrder, UserQuery query)
         {
             ViewBag.CurrentSortOrder = SortOrder;
+            ViewBag.CurrentFilter = SearchString;
             ViewBag.FirstNameSortParam = String.IsNullOrEmpty(SortOrder) ? "name_desc" : "";
             ViewBag.LastNameSortParam = SortOrder == "last_name_asc" ? "last_name_desc" : "last_name_asc";
             ViewBag.UsernameSortParam = SortOrder == "username_asc" ? "username_desc" : "username_asc";

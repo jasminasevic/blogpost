@@ -44,8 +44,6 @@ namespace EfCommands
 
             var totalCount = users.Count();
 
-            var pagesCount = (int)Math.Ceiling((double)totalCount / request.PerPage);
-
             var Data = users.Select(u => new ShowUserDto
             {
                 Id = u.Id,
@@ -65,6 +63,15 @@ namespace EfCommands
                     })
                 })
             });
+
+
+            if (!string.IsNullOrEmpty(request.SearchString))
+            {
+                Data = Data.Where(u => u.FirstName.Contains(request.SearchString) || u.LastName.Contains(request.SearchString));
+                totalCount = Data.Count();
+            }
+
+            var pagesCount = (int)Math.Ceiling((double)totalCount / request.PerPage);
 
             switch (sortOrder)
             {

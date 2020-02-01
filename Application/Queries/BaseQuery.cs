@@ -11,5 +11,7 @@ namespace Application.Queries
         public int PageNumber { get; set; } = 1;
 
         public string SortOrder { get; set; }
+
+        public string SearchString { get; set; }
     }
 }
