@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Application.Commands;
@@ -34,8 +35,14 @@ namespace WebMVC.Controllers
         }
 
         // GET: Users
-        public ActionResult Index(UserQuery query)
+        public ActionResult Index(string SortOrder, UserQuery query)
         {
+            ViewBag.CurrentSortOrder = SortOrder;
+            ViewBag.FirstNameSortParam = String.IsNullOrEmpty(SortOrder) ? "name_desc" : "";
+            ViewBag.LastNameSortParam = SortOrder == "last_name_asc" ? "last_name_desc" : "last_name_asc";
+            ViewBag.UsernameSortParam = SortOrder == "username_asc" ? "username_desc" : "username_asc";
+            ViewBag.RoleSortParam = SortOrder == "role_asc" ? "role_desc" : "role_asc";
+
             var users = _getUsers.Execute(query);
             return View(users);
         }

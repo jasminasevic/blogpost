@@ -9,5 +9,7 @@ namespace Application.Queries
         public int PerPage { get; set; } = 3;
 
         public int PageNumber { get; set; } = 1;
+
+        public string SortOrder { get; set; }
     }
 }

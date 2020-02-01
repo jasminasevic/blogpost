@@ -18,16 +18,36 @@
                 Id
             </th>
             <th>
-                First Name
+                <a asp-action="Index" 
+                   asp-route-PageNumber="@Model.CurrentPage"
+                   asp-route-SortOrder="@ViewBag.FirstNameSortParam"
+                   >
+                    First Name
+                </a>
             </th>
             <th>
-                Last Name
+                <a asp-action="Index" 
+                   asp-route-PageNumber="@Model.CurrentPage"
+                   asp-route-SortOrder="@ViewBag.LastNameSortParam"
+                   >
+                    Last Name
+                </a>
             </th>
             <th>
+                <a asp-action="Index"
+                   asp-route-PageNumber="@Model.CurrentPage"
+                   asp-route-SortOrder="@ViewBag.UsernameSortParam"
+                   >
                 Username
+                </a>
             </th>
             <th>
-                Role
+                <a
+                   asp-action="Index"
+                   asp-route-PageNumber="@Model.CurrentPage"
+                   asp-route-SortOrder="@ViewBag.RoleSortParam"
+                   >Role
+                </a>
             </th>
             <th></th>
         </tr>
