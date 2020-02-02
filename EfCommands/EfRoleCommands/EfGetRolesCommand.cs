@@ -28,26 +28,52 @@ namespace EfCommands
 
             var totalCount = query.Count();
 
-            query = query.Skip((request.PageNumber - 1) * request.PerPage).Take(request.PerPage);
+            
+            var Data = query.Select(r => new ShowRoleDto
+            {
+                Id = r.Id,
+                Name = r.Name,
+                BasicUserInfoDtos = r.Users.Select(u => new BasicUserInfoDto
+                {
+                    FirstName = u.FirstName,
+                    LastName = u.LastName,
+                    Username = u.Username
+                })
+            });
+
+
+            //Sorting logic
+            var sortOrder = request.SortOrder;
+
+            switch (sortOrder)
+            {
+                case "role_desc":
+                    Data = Data.OrderByDescending(r => r.Name);
+                    break;
+                default:
+                    Data = Data.OrderBy(r => r.Name);
+                    break;
+            }
+
+            //Filtering logig
+            if (!string.IsNullOrEmpty(request.SearchString))
+            {
+                Data = Data.Where(r => r.Name.Contains(request.SearchString));
+                totalCount = Data.Count();
+            }
+
+
+            Data = Data.Skip((request.PageNumber - 1) * request.PerPage).Take(request.PerPage);
 
             var pagesCount = (int)Math.Ceiling((double)totalCount / request.PerPage);
+
 
             return new PageResponses<ShowRoleDto>
             {
                 CurrentPage = request.PageNumber,
                 PagesCount = pagesCount,
                 TotalCount = totalCount,
-                Data = query.Select(r => new ShowRoleDto
-                {
-                    Id = r.Id,
-                    Name = r.Name,
-                    BasicUserInfoDtos = r.Users.Select(u => new BasicUserInfoDto
-                    {
-                        FirstName = u.FirstName,
-                        LastName = u.LastName,
-                        Username = u.Username
-                    })
-                })
+                Data = Data
             };
         }
     }

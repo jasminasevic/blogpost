@@ -16,11 +16,24 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<br />
+    <form asp-action="Index" method="get">
+        Search role: <input type="text" name="SearchString" value="@ViewBag.CurrentFilter" /> 
+        <input type="submit" value="Search role" class="btn btn-primary" /> |
+        <a asp-action="Index">Remove filter</a>
+    </form>
+<br />
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Data)
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewBag.RoleSortParam"
+                   asp-route-PageNumber="@Model.CurrentPage">
+                    Role
+                </a>
             </th>
             <th></th>
         </tr>

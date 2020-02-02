@@ -29,8 +29,12 @@ namespace WebMVC.Controllers
         }
 
         // GET: Roles
-        public ActionResult Index(RoleQuery query)
+        public ActionResult Index(string sortOrder, string searchString, RoleQuery query)
         {
+            ViewBag.RoleSortParam = string.IsNullOrEmpty(sortOrder) ? "role_desc" : "";
+            ViewBag.CurrentSortOrder = sortOrder;
+            ViewBag.CurrentFilter = searchString;
+
             var roles = _getRoles.Execute(query);
             return View(roles);
         }
