@@ -35,14 +35,14 @@ namespace WebMVC.Controllers
         }
 
         // GET: Users
-        public ActionResult Index(string SearchString, string SortOrder, UserQuery query)
+        public ActionResult Index(string searchString, string sortOrder, UserQuery query)
         {
-            ViewBag.CurrentSortOrder = SortOrder;
-            ViewBag.CurrentFilter = SearchString;
-            ViewBag.FirstNameSortParam = String.IsNullOrEmpty(SortOrder) ? "name_desc" : "";
-            ViewBag.LastNameSortParam = SortOrder == "last_name_asc" ? "last_name_desc" : "last_name_asc";
-            ViewBag.UsernameSortParam = SortOrder == "username_asc" ? "username_desc" : "username_asc";
-            ViewBag.RoleSortParam = SortOrder == "role_asc" ? "role_desc" : "role_asc";
+            ViewBag.CurrentSortOrder = sortOrder;
+            ViewBag.CurrentFilter = searchString;
+            ViewBag.FirstNameSortParam = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.LastNameSortParam = sortOrder == "last_name_asc" ? "last_name_desc" : "last_name_asc";
+            ViewBag.UsernameSortParam = sortOrder == "username_asc" ? "username_desc" : "username_asc";
+            ViewBag.RoleSortParam = sortOrder == "role_asc" ? "role_desc" : "role_asc";
 
             var users = _getUsers.Execute(query);
             return View(users);

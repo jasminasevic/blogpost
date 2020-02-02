@@ -11,11 +11,22 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<br />
+    <form asp-action="Index" method="get">
+        Find category: <input type="text" name="SearchString" value="@ViewBag.CurrentFilter" />
+        <input type="submit" value="Search category" class="btn btn-primary"/> | 
+        <a asp-action="Index">Remove search</a>
+    </form>
+<br />
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Data)
+                <a asp-action="Index" 
+                   asp-route-SortOrder="@ViewBag.CategorySortParam"
+                   asp-route-PageNumber="@Model.CurrentPage">
+                Category
+                </a>
             </th>
             <th></th>
         </tr>

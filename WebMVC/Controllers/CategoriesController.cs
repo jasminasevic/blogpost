@@ -36,8 +36,12 @@ namespace WebMVC.Controllers
 
 
         // GET: Categories
-        public ActionResult Index(CategoryQuery query)
+        public ActionResult Index(string sortOrder, string searchString, CategoryQuery query)
         {
+            ViewBag.CategorySortParam = String.IsNullOrEmpty(sortOrder) ? "category_desc" : "";
+            ViewBag.CurrentSortOrder = sortOrder;
+            ViewBag.CurrentFilter = searchString;
+
             var categoryList = _getCategories.Execute(query);
             return View(categoryList);
         }
