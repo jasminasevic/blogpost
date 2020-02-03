@@ -17,13 +17,25 @@
     <p class="alert-danger">@TempData["error"]</p>
 }
 
+<br />
 
+    <form asp-action="Index" method="get">
+        Find post: <input type="text" name="SearchString" value="@ViewBag.CurrentFilter" />
+        <input type="submit" value="Search post" class="btn btn-primary"/> |
+        <a asp-action="Index">Remove filter</a>
+    </form>
+    
+<br />
 
 <table class="table">
     <thead>
         <tr>
             <th>
-                Title
+                <a asp-action="Index" 
+                   asp-route-sortOrder="@ViewBag.TitleSortParam"
+                   asp-route-PageNumber="@Model.CurrentPage">
+                    Title
+                </a>
             </th>
             <th>
                 Summary
@@ -32,10 +44,18 @@
                 Text
             </th>
             <th>
-                Author
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewBag.AuthorSortParam"
+                   asp-route-PageNumber="@Model.CurrentPage">
+                    Author
+                </a>
             </th>
             <th>
-                Category
+                <a asp-action="Index"
+                   asp-route-sortOrder="@ViewBag.CategorySortParam"
+                   asp-route-PageNumber="@Model.CurrentPage">
+                    Category
+                </a>
             </th>
             <th>
                 Image

@@ -46,8 +46,15 @@ namespace WebMVC.Controllers
         }
 
         // GET: Posts
-        public ActionResult Index(PostQuery search)
+        public ActionResult Index(string searchString, string sortOrder, PostQuery search)
         {
+            
+            ViewBag.TitleSortParam = string.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            ViewBag.AuthorSortParam = sortOrder == "author_desc" ? "author_asc" : "author_desc";
+            ViewBag.CategorySortParam = sortOrder == "category_desc" ? "category_asc" : "category_desc";
+            ViewBag.CurrentSortOrder = sortOrder;
+
+            ViewBag.CurrentFilter = searchString;
             var posts = _getPosts.Execute(search);
             return View(posts);
         }
