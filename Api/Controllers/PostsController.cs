@@ -106,7 +106,7 @@ namespace Api.Controllers
         /// </summary>
 
         // PUT: api/Posts/5
-        [LoggedIn]
+        //[LoggedIn]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] GetPostDto dto)
         {
@@ -131,7 +131,7 @@ namespace Api.Controllers
         /// </summary>
 
         // DELETE: api/Posts/5
-        [LoggedIn]
+       // [LoggedIn]
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

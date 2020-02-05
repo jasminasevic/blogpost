@@ -54,13 +54,17 @@ namespace EfCommands
             };
             Context.Posts.Add(post);
 
-            foreach(var tag in request.AddTagsInPost)
+
+            if (request.AddTagsInPost != null)
             {
-                Context.PostTags.Add(new Domain.PostTag
+                foreach (var tag in request.AddTagsInPost)
                 {
-                    Post = post,
-                    TagId = tag
-                });
+                    Context.PostTags.Add(new Domain.PostTag
+                    {
+                        Post = post,
+                        TagId = tag
+                    });
+                }
             }
            
             Context.SaveChanges();

@@ -83,6 +83,9 @@ namespace WebMVC
                 new SmtpEmailSender(section["host"], Int32.Parse(section["port"]), section["fromaddress"], section["password"]);
             services.AddSingleton<IEmailSender>(sender);
 
+            //login
+            services.AddTransient<ILoginUserCommand, EfLoginUserCommand>();
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

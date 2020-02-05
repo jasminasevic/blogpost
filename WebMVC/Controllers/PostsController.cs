@@ -93,6 +93,13 @@ namespace WebMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(PostDto dto)
          {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Categories = _getCategories.Execute(new GeneralSearchQuery());
+                ViewBag.Users = _getUsers.Execute(new GeneralSearchQuery());
+                ViewBag.Tags = _getTags.Execute(new GeneralSearchQuery());
+                return View(dto);
+            }
             try
             {
                 // TODO: Add insert logic here
@@ -141,6 +148,9 @@ namespace WebMVC.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Categories = _getCategories.Execute(new GeneralSearchQuery());
+                ViewBag.Users = _getUsers.Execute(new GeneralSearchQuery());
+                ViewBag.Tags = _getTags.Execute(new GeneralSearchQuery());
                 return View(dto);
             }
             try
@@ -166,6 +176,8 @@ namespace WebMVC.Controllers
         }
 
         // GET: Posts/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
         public ActionResult Delete(int id)
         {
             try

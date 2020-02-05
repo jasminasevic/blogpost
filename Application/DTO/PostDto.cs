@@ -11,14 +11,14 @@ namespace Application.DTO
     {   
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "This field is required")]
+        [Required(ErrorMessage = "Title is required")]
         [MinLength(3, ErrorMessage = "Post title must have at least 3 characters")]
         public string Title { get; set; }
 
-        [Required(ErrorMessage = "This field is required")]
+        [Required(ErrorMessage = "Summary is required")]
         public string Summary { get; set; }
 
-        [Required(ErrorMessage = "This field is required")]
+        [Required(ErrorMessage = "Text is required")]
         public string Text { get; set; }
 
        // public string FirstName { get; set; }
@@ -29,16 +29,18 @@ namespace Application.DTO
         
         public int ImageId { get; set; }
 
+        [Required(ErrorMessage = "Image is required")]
         public IFormFile Image { get; set; }
 
-        [Required(ErrorMessage = "This fiels is required")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Category is required")]
         [Display(Name = "Category")]
         public int CategoryId { get; set; }
 
-        [Required(ErrorMessage = "This field is required")]
+        [Required(ErrorMessage = "User is required")]
         [Display(Name = "User")]
         public int UserId { get; set; }
 
+        [Required(ErrorMessage = "Tags are required")]
         [Display(Name = "Tags")]
         public List<int> AddTagsInPost { get; set; } 
     }
