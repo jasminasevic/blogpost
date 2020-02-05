@@ -10,6 +10,7 @@ using Application.Queries;
 using Application.Searches;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Application.Commands.RoleCommands;
 
 namespace WebMVC.Controllers
 {
@@ -17,21 +18,24 @@ namespace WebMVC.Controllers
     {
         private readonly IGetUserCommand _getUser;
         private readonly IGetUsersCommand _getUsers;
-   //     private readonly IAddUserCommand _addUser;
+        private readonly IAddUserCommand _addUser;
         private readonly IEditUserCommand _editUser;
         private readonly IDeleteUserCommand _deleteUser;
+        private readonly IGetRolesWithoutPaginationCommand _getRoles;
 
         public UsersController(IGetUserCommand getUser,
                                IGetUsersCommand getUsers,
-     //                          IAddUserCommand addUser, 
+                               IAddUserCommand addUser,
                                IEditUserCommand editUser,
-                               IDeleteUserCommand deleteUser)
+                               IDeleteUserCommand deleteUser,
+                               IGetRolesWithoutPaginationCommand getRoles)
         {
             _getUser = getUser;
             _getUsers = getUsers;
-     //       _addUser = addUser;
+            _addUser = addUser;
             _editUser = editUser;
             _deleteUser = deleteUser;
+            _getRoles = getRoles;
         }
 
         // GET: Users
@@ -64,8 +68,9 @@ namespace WebMVC.Controllers
         }
 
         // GET: Users/Create
-        public ActionResult Create()
+        public ActionResult Create([FromQuery] GeneralSearchQuery search)
         {
+            ViewBag.Roles = _getRoles.Execute(search);
             return View();
         }
 
@@ -74,13 +79,14 @@ namespace WebMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(UserDto dto)
         {
-           if(!ModelState.IsValid)
-            {
+            if (!ModelState.IsValid)
+           {
+                ViewBag.Roles = _getRoles.Execute(new GeneralSearchQuery());
                 return View(dto);
-            }
+           }
             try
             {
-               // _addUser.Execute(dto);
+                _addUser.Execute(dto);
                 return RedirectToAction(nameof(Index));
             }
             catch (EntityAlreadyExistsException)
@@ -99,6 +105,7 @@ namespace WebMVC.Controllers
         {
             try
             {
+                ViewBag.Roles = _getRoles.Execute(new GeneralSearchQuery());
                 var user = _getUser.Execute(id);
                 return View(user);
             }
@@ -111,10 +118,11 @@ namespace WebMVC.Controllers
         // POST: Users/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, UserDto dto)
+        public ActionResult Edit(int id, ShowUserDto dto)
         {
             if (!ModelState.IsValid)
             {
+                ViewBag.Roles = _getRoles.Execute(new GeneralSearchQuery());
                 return View(dto);
             }
 

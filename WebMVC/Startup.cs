@@ -4,10 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Application.Commands;
 using Application.Commands.CategoryCommands;
+using Application.Commands.RoleCommands;
 using Application.Commands.TagCommands;
 using Application.Commands.UserCommands;
+using Application.Interfaces;
 using EfCommands;
 using EfCommands.EfCategoryCommands;
+using EfCommands.EfRoleCommands;
 using EfCommands.EfTagCommands;
 using EfCommands.EfUserCommands;
 using EfDataAccess;
@@ -19,6 +22,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebMVC.Email;
 
 namespace WebMVC
 {
@@ -50,9 +54,10 @@ namespace WebMVC
             //users
             services.AddTransient<IGetUserCommand, EfGetUserCommand>();
             services.AddTransient<IGetUsersCommand, EfGetUsersCommand>();
-         //   services.AddTransient<IAddUserCommand, EfAddUserCommand>();
+            services.AddTransient<IAddUserCommand, EfAddUserCommand>();
             services.AddTransient<IEditUserCommand, EfEditUserCommand>();
             services.AddTransient<IDeleteUserCommand, EfDeleteUserCommand>();
+            services.AddTransient<IGetRolesWithoutPaginationCommand, EfGetRolesWithoutPaginationCommand>();
             //roles
             services.AddTransient<IGetRolesCommand, EfGetRolesCommand>();
             services.AddTransient<IGetRoleCommand, EfGetRoleCommand>();
@@ -71,6 +76,13 @@ namespace WebMVC
 
             //pagination
             services.AddCloudscribePagination();
+
+            //email
+            var section = Configuration.GetSection("Email");
+            var sender =
+                new SmtpEmailSender(section["host"], Int32.Parse(section["port"]), section["fromaddress"], section["password"]);
+            services.AddSingleton<IEmailSender>(sender);
+
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }

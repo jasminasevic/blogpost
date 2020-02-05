@@ -15,7 +15,7 @@ namespace EfCommands
         {
         }
 
-        public void Execute(UserDto request)
+        public void Execute(ShowUserDto request)
         {
             var user = Context.Users.Find(request.Id);
 
@@ -25,16 +25,18 @@ namespace EfCommands
             if (request.Username != user.Username && Context.Users.Any(u => u.Username == request.Username))
                 throw new EntityAlreadyExistsException();
 
-            if (request.Password != null)
-                user.Password = request.Password;
+            //if (request.Password != null)
+            //    user.Password = request.Password;
 
             user.FirstName = request.FirstName;
             user.LastName = request.LastName;
             user.Username = request.Username;
-            user.Password = request.Password;
+            // user.Password = request.Password;
             user.RoleId = request.RoleId;
 
             Context.SaveChanges();
         }
+
+      
     }
 }

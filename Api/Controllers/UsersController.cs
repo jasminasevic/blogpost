@@ -102,7 +102,7 @@ namespace Api.Controllers
         [LoggedIn]
         // PUT: api/Users/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] UserDto dto)
+        public IActionResult Put(int id, [FromBody] ShowUserDto dto)
         {
             try
             {

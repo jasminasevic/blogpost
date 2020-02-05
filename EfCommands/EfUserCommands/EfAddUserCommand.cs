@@ -19,6 +19,10 @@ namespace EfCommands
             _emailSender = emailSender;
         }
 
+        //public EfAddUserCommand(EfContext context) : base(context)
+        //{
+        //}
+
 
         public void Execute(UserDto request)
         {
@@ -42,6 +46,7 @@ namespace EfCommands
             _emailSender.Send();
 
         }
+
     }
-    
+
 }
